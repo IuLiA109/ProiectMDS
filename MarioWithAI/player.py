@@ -35,25 +35,25 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
 
     def checkEvents(self, eventList):
         for event in eventList:
-            # Movement with W A S D
+            # Movement with W A S D and arrows
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
+                if event.key == pygame.K_w or event.key == pygame.K_UP:
                     self.velocity[1] = -PLAYER_SPEED * 2
-                if event.key == pygame.K_s:
+                if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     self.velocity[1] = PLAYER_SPEED
-                if event.key == pygame.K_a:
+                if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     self.velocity[0] = -PLAYER_SPEED
-                if event.key == pygame.K_d:
+                if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     self.velocity[0] = PLAYER_SPEED
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_w:
+                if event.key == pygame.K_w or event.key == pygame.K_UP:
                     self.velocity[1] = 0
-                if event.key == pygame.K_s:
+                if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     self.velocity[1] = 0
-                if event.key == pygame.K_a:
+                if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     self.velocity[0] = 0
-                if event.key == pygame.K_d:
+                if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     self.velocity[0] = 0
 
     def render(self, surf):
