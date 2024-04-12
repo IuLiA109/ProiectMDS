@@ -1,3 +1,5 @@
+from xml.dom.minidom import Entity
+
 import pygame
 from constants import *
 # from player import Player
@@ -6,6 +8,7 @@ from gameStateManager import GameStateManager
 from utils import load_image, load_images
 from player import Player
 from level1 import Level1
+from entities import Enemy
 
 
 class GameController:
@@ -32,11 +35,13 @@ class GameController:
             'wall': load_image('tiles/wall.png'),
             # 'platform': load_image('tiles/platform.png'),
             # 'mistery': load_image('tiles/mistery.png'),
-            'player': load_image('entities/mario/mario.png')
+            'player': load_image('entities/mario/mario.png'),
+            'enemy': load_image('entities/enemy/goombas/red/0.png')
         }
 
         self.tilemap = None
         self.player = Player(self)
+        self.enemy = Enemy(self)
 
         # Scenes
         self.Level1 = None
