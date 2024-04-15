@@ -11,9 +11,10 @@ class Tilemap:
         self.tilemap = {}
         self.offgrid_tiles = []
 
-        for i in range(15):
+        for i in range(30):
             self.tilemap[str(3 + i) + ';10'] = {'type': 'floor', 'variant': 0, 'pos': (3 + i, 10)}
             self.tilemap['10;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (10, 5 + i)}
+            self.tilemap['20;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (20, 5 + i)}
 
     def load(self, filename):
         # Aici o sa dam load la un nivel in functie de fisierul .json aferent level-ului
