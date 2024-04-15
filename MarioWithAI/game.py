@@ -8,7 +8,7 @@ from gameStateManager import GameStateManager
 from utils import load_image, load_images
 from player import Player
 from level1 import Level1
-from entities import Enemy
+from enemy import Enemy
 
 
 class GameController:
@@ -36,12 +36,11 @@ class GameController:
             # 'platform': load_image('tiles/platform.png'),
             # 'mistery': load_image('tiles/mistery.png'),
             'player': load_image('entities/mario/mario.png'),
-            'enemy': load_image('entities/enemy/goombas/red/0.png')
+            'enemy/run': 'entities/enemy/goombas/red/run/'
         }
 
         self.tilemap = None
         self.player = Player(self)
-        self.enemy = Enemy(self)
 
         # Scenes
         self.Level1 = None
