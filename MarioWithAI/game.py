@@ -1,11 +1,14 @@
+from xml.dom.minidom import Entity
+
 import pygame
 from constants import *
 # from player import Player
 from tiles import *
 from gameStateManager import GameStateManager
-
-
-# from level1 import Level1
+from utils import load_image, load_images
+from player import Player
+from level1 import Level1
+from enemy import Enemy
 
 
 class GameController:
@@ -27,22 +30,26 @@ class GameController:
         self.background = pygame.Surface((VIRTUALSCREEN_WIDTH, VIRTUALSCREEN_HEIGHT))
         self.background.fill((100, 50, 80))
 
-        self.tilemap = None
-        # self.player = Player(self, (9 * TILESIZE, 8 * TILESIZE))
+        self.assets = {
+            'floor': load_image('tiles/floor.png'),
+            'wall': load_image('tiles/wall.png'),
+            # 'platform': load_image('tiles/platform.png'),
+            # 'mistery': load_image('tiles/mistery.png'),
+            'player': load_image('entities/mario/mario.png'),
+            'enemy/run': 'entities/enemy/goombas/red/run/'
+        }
 
-        self.projectiles = []
+        self.tilemap = None
+        self.player = Player(self)
 
         # Scenes
         self.Level1 = None
         self.Level2 = None
         self.Level3 = None
 
-        # Test image
-        self.img = pygame.image.load("data/images/entities/enemy/beetle/blue/0.png").convert_alpha()
-        self.img_pos = [100, 200]
-
     def startGame(self):
         # load the lobby as the first scene
+        self.Level1 = Level1(self)
         '''
         self.loadLevel1()
         '''
@@ -73,10 +80,10 @@ class GameController:
             pygame.quit()
             quit()
 
-        '''
+
         if self.gameStateManager.gameState == "Level 1":
-            self.Level1.update()
-        '''
+            self.Level1.updateLevel1()
+
 
         self.clock.tick(FPS)
         self.checkGameEvents()
@@ -86,10 +93,10 @@ class GameController:
 
         eventList = pygame.event.get()
 
-        '''
+
         if self.gameStateManager.gameState == "Level 1":
             self.Level1.checkEvents(eventList)
-        '''
+
 
         for event in eventList:
             if event.type == pygame.QUIT:
@@ -97,20 +104,15 @@ class GameController:
 
     def render(self):
 
-        # --- Rendering the correct Scene based on the gameState ---
-        '''
-
-        if self.gameStateManager.gameState == "Level 1":
-            self.Level1.renderLevel1()
-
-        '''
-        # --- Rendering the correct Scene based on the gameState ---
-
         # render background on the virtual screen
         self.virtual_screen.blit(self.background, (0, 0))
 
-        # Render the test image
-        self.virtual_screen.blit(self.img, self.img_pos)
+        # --- Rendering the correct Scene based on the gameState ---
+
+        if self.gameStateManager.gameState == "Level 1":
+            self.Level1.renderLevel1(self.virtual_screen)
+
+        # --- Rendering the correct Scene based on the gameState ---
 
         # scale the virutal screen onto the actual screen
         scaledScreen = pygame.transform.scale(self.virtual_screen, (SCREEN_WIDTH, SCREEN_HEIGHT), self.screen)
