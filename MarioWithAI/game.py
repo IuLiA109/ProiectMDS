@@ -2,14 +2,12 @@ from xml.dom.minidom import Entity
 
 import pygame
 from constants import *
-# from player import Player
 from tiles import *
 from gameStateManager import GameStateManager
-from utils import load_image, load_images
+from utils import load_image, load_images, Animation
 from player import Player
 from level1 import Level1
 from enemy import Enemy
-
 
 class GameController:
     def __init__(self):
@@ -36,11 +34,20 @@ class GameController:
             # 'platform': load_image('tiles/platform.png'),
             # 'mistery': load_image('tiles/mistery.png'),
             'player': load_image('entities/mario/mario.png'),
-            'enemy/run': 'entities/enemy/goombas/red/run/'
+            'enemy/run': 'entities/enemy/goombas/red/run/',
+            'clouds': 'clouds/',
+            'player/idle': Animation(load_images('entities/mario/idle'), img_dur=6),
+            'player/run': Animation(load_images('entities/mario/run'), img_dur=4),
+            'player/jump': Animation(load_images('entities/mario/jump'), img_dur=4),
+            'player/die': Animation(load_images('entities/mario/die'), img_dur=4),
+            'player/flag': Animation(load_images('entities/mario/flag'), img_dur=4),
+            'player/pipeHorizontal': Animation(load_images('entities/mario/pipeHorizontal'), img_dur=4),
+            'player/pipeVertical': Animation(load_images('entities/mario/pipeVertical'), img_dur=6)
         }
+        #print(self.assets)
 
         self.tilemap = None
-        self.player = Player(self)
+        self.player = Player(self,)
 
         # Scenes
         self.Level1 = None

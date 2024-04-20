@@ -1,5 +1,5 @@
 import pygame
-import game
+#import game
 from constants import *
 from entities import PhysicsEntity
 
@@ -9,6 +9,7 @@ NEIGHBOURS_OFFSET = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1]
 class Player(PhysicsEntity):  # Inherit from PhysicsEntity
     def __init__(self, game, pos=(0, 0), size=(16, 16)):
         super().__init__(game, 'player', pos, size)
+        self.air_time = 0
 
         # Animation frames
         '''
@@ -25,13 +26,26 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.image = self.animation_frames[self.current_frame]
         '''
 
-        self.image = self.game.assets['player']
+        #self.image = self.game.assets['player']
 
-        self.size = size
-        self.position = list(pos)
+        #self.size = size
+        #self.position = list(pos)
 
-        self.game = game
-        self.speed = PLAYER_SPEED
+        #self.game = game
+        #self.speed = PLAYER_SPEED
+
+    def update(self, tilemap, movement=(0,0)):
+        super().update(tilemap, movement=movement)
+        self.air_time += 1
+
+        if self.collisions['down']:
+            self.air_time = 0
+
+        if self.air_time > 4:
+            self.set_action('jump')
+        elif movement[0] != 0:
+            self.set_action('run')
+        else: self.set_action('idle')
 
     def checkEvents(self, eventList):
         for event in eventList:
