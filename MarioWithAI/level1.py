@@ -1,6 +1,6 @@
 import pygame
 
-from MarioWithAI.enemy import Enemy
+from enemy import Enemy
 from constants import *
 from tiles import *
 from gameStateManager import GameStateManager
@@ -21,6 +21,7 @@ class Level1:
 
         self.enemiesList.append(Enemy(self.game))
         self.enemiesList.append(Enemy(self.game))
+        self.enemiesList.append(Enemy(self.game))
         #enemy1 = Enemy(self)
         #enemy2 = Enemy(self)
 
@@ -28,6 +29,7 @@ class Level1:
         self.game.player.pos = [50, 10]
         self.enemiesList[0].pos = [70, 10]
         self.enemiesList[1].pos = [200, 10]
+        self.enemiesList[2].pos = [270, 10]
 
 
     def updateLevel1(self):
