@@ -10,7 +10,6 @@ from player import Player
 from level1 import Level1
 from enemy import Enemy
 
-
 class GameController:
     def __init__(self):
         pygame.init()
