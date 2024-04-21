@@ -58,12 +58,14 @@ class Editor:
         while True:
             self.display.fill((0, 0, 0))
 
-
+            self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
+            self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
+            render_scroll = (int(self.scroll[0]),int(self.scroll[1]))
 
             current_tile_img = self.assets[self.tile_list[self.tile_group]].copy()
             current_tile_img.set_alpha(100)
 
-            self.tilemap.render(self.display)
+            self.tilemap.render(self.display, offset=render_scroll)
 
             mpos = pygame.mouse.get_pos()
             mpos = (mpos[0] / RENDER_SCALE, mpos[1] / RENDER_SCALE)
@@ -72,8 +74,7 @@ class Editor:
 
             self.display.blit(current_tile_img, (tile_pos[0] * self.tilemap.tile_size - self.scroll[0], tile_pos[1] * self.tilemap.tile_size - self.scroll[1]))
 
-            self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
-            self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
+
 
             if self.clicking:
                 self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
