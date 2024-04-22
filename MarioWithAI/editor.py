@@ -11,6 +11,7 @@ from level1 import Level1
 from tiles import *
 from constants import *
 
+#Teritoriu de lucru: Sumi
 class Editor:
     def __init__(self):
         pygame.init()
@@ -29,8 +30,13 @@ class Editor:
         }
 
         self.movement = [False, False, False, False]
-
         self.tilemap = Tilemap(self, tile_size=16)
+        try:
+            self.tilemap.load('map.json')
+        except FileNotFoundError:
+            pass
+
+
 
         try:
             self.tilemap.load('map.json')
@@ -45,22 +51,21 @@ class Editor:
 
         self.clicking = False
         self.right_clicking = False
-        self.shift = False
         self.ongrid = True
-
-        self.clicking = False
-        self.right_clicking = False
 
         # partea pentru schimbarea intre variante
         self.shift = False
 
-    def run(self ):
+
+
+
+    def run(self):
         while True:
             self.display.fill((0, 0, 0))
 
             self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
             self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
-            render_scroll = (int(self.scroll[0]),int(self.scroll[1]))
+            render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             current_tile_img = self.assets[self.tile_list[self.tile_group]].copy()
             current_tile_img.set_alpha(100)
@@ -70,23 +75,32 @@ class Editor:
             mpos = pygame.mouse.get_pos()
             mpos = (mpos[0] / RENDER_SCALE, mpos[1] / RENDER_SCALE)
 
-            tile_pos = (int((mpos[0] + self.scroll[0]) // self.tilemap.tile_size), int((mpos[1] + self.scroll[1]) // self.tilemap.tile_size))
+            tile_pos = (int((mpos[0] + self.scroll[0]) // self.tilemap.tile_size),
+                        int((mpos[1] + self.scroll[1]) // self.tilemap.tile_size))
+            if self.ongrid:
+                self.display.blit(current_tile_img, (tile_pos[0] * self.tilemap.tile_size - self.scroll[0],
+                                                     tile_pos[1] * self.tilemap.tile_size - self.scroll[1]))
+            else:
+                self.display.blit(current_tile_img, (mpos[0], mpos[1]))
 
-            self.display.blit(current_tile_img, (tile_pos[0] * self.tilemap.tile_size - self.scroll[0], tile_pos[1] * self.tilemap.tile_size - self.scroll[1]))
-
-
-
-            if self.clicking:
-                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
+            if self.clicking and self.ongrid:
+                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {
+                    'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
 
             if self.right_clicking:
                 tile_loc = str(tile_pos[0]) + ';' + str(tile_pos[1])
                 if tile_loc in self.tilemap.tilemap:
                     del self.tilemap.tilemap[tile_loc]
+                for tile in self.tilemap.offgrid_tiles.copy():
+                    #pentru variante
+                    #tile_aux = self.assets[tile['type'][tile['variant']]]
+                    tile_aux = self.assets[tile['type']]
+                    tile_r = pygame.Rect(tile['pos'][0] - self.scroll[0], tile['pos'][1]- self.scroll[0], tile_aux.get_width(), tile_aux.get_height())
+                    if tile_r.collidepoint(mpos):
+                        self.tilemap.offgrid_tiles.remove(tile)
 
             # cand o sa avem mai multe variante la  tileuri, o sa trebuiasca sa facem un sistem de scroll al variantei dar acum nu avem
             # current_tile_img = self.assets[self.tile_list[self.tile_group]][self.tile_variant].copy()
-
 
             self.display.blit(current_tile_img, (5, 5))
 
@@ -97,6 +111,10 @@ class Editor:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.clicking = True
+                        if not self.ongrid:
+                            self.tilemap.offgrid_tiles.append(
+                                {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant,
+                                 'pos': (mpos[0] + self.scroll[0], mpos[1] + self.scroll[1])})
                     if event.button == 3:
                         self.right_clicking = True
                         # Pentru cand/daca o sa avem mai multe variante la tileuri
@@ -111,6 +129,7 @@ class Editor:
                         # self.tile_variant = 0
                     if event.button == 5:
                         self.tile_group = (self.tile_group + 1) % len(self.tile_list)
+                        # self.tile_variant = 0
                 if event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
                         self.clicking = False
@@ -125,12 +144,12 @@ class Editor:
                         self.movement[2] = True
                     if event.key == pygame.K_s:
                         self.movement[3] = True
-                    if event.key == pygame.K_g:
-                        self.ongrid = not self.ongrid
                     if event.key == pygame.K_t:
                         self.tilemap.autotile()
                     if event.key == pygame.K_o:
                         self.tilemap.save('map.json')
+                    if event.key == pygame.K_g:
+                        self.ongrid = not self.ongrid
                     if event.key == pygame.K_LSHIFT:
                         self.shift = True
                 if event.type == pygame.KEYUP:
