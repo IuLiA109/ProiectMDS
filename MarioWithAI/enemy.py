@@ -13,7 +13,7 @@ class Enemy(PhysicsEntity):
         self.walking_animation_duration = 250
         self.walking_animation_timer = 0
         self.image = self.game.assets['enemy']
-        self.animation = self.game.assets['enemy/run'].copy()
+        # self.animation = self.game.assets['enemy/run'].copy()
 
     '''
     def update_animation(self):

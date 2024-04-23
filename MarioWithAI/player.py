@@ -26,7 +26,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.image = self.animation_frames[self.current_frame]
         '''
 
-        self.image = self.game.assets['player']
+        # self.image = self.game.assets['player']
 
         #self.size = size
         #self.position = list(pos)
@@ -70,5 +70,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
                 if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     self.velocity[0] = 0
 
+    '''
     def render(self, surf):
         surf.blit(self.image, self.pos)
+    '''
