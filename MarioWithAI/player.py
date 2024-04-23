@@ -26,7 +26,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.image = self.animation_frames[self.current_frame]
         '''
 
-        #self.image = self.game.assets['player']
+        self.image = self.game.assets['player']
 
         #self.size = size
         #self.position = list(pos)
@@ -34,8 +34,8 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         #self.game = game
         #self.speed = PLAYER_SPEED
 
-    def update(self, tilemap, movement=(0,0)):
-        super().update(tilemap, movement=movement)
+    def update(self, movement=(0,0)):
+        super().update()
         self.air_time += 1
 
         if self.collisions['down']:

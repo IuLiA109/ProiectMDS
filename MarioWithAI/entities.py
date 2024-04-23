@@ -18,8 +18,9 @@ class PhysicsEntity:
 
         #teo worked here
         self.action = ''
-        self.anim_offset = (-3, -3)
-        self.set_action('idle')
+        #self.anim_offset = (-3, -3)
+        self.anim_offset = (0, 0)
+        self.set_action('run') # aici era 'idle'
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
@@ -27,7 +28,7 @@ class PhysicsEntity:
     def set_action(self, action):
         if action != self.action:
             self.action = action
-            self.animation = self.assets[self.e_type + '/' + self.action].copy()
+            self.animation = self.game.assets[self.type + '/' + self.action].copy()
         
 
     def update(self):
@@ -72,7 +73,7 @@ class PhysicsEntity:
         self.animation.update()
 
     def render(self, surf, offset=(0, 0)):
-        surf.blit(pygame.transform.flip(self.animation.ing(), self.flip, False),
+        surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False),
                                         (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
                                         
 

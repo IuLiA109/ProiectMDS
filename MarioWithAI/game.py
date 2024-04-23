@@ -5,7 +5,7 @@ from constants import *
 # from player import Player
 from tiles import *
 from gameStateManager import GameStateManager
-from utils import load_image, load_images , Animation
+from utils import load_image, load_images, Animation
 from player import Player
 from level1 import Level1
 from enemy import Enemy
@@ -38,7 +38,8 @@ class GameController:
             # 'platform': load_image('tiles/platform.png'),
             # 'mistery': load_image('tiles/mistery.png'),
             'player': load_image('entities/mario/mario.png'),
-            'enemy/run': 'entities/enemy/goombas/red/run/',
+            'enemy': load_image('entities/enemy/goombas/red/run/0.png'),
+            'enemy/run': Animation(load_images('entities/enemy/goombas/red/run/'), img_dur=25),
             'clouds': 'clouds/',
             'player/idle': Animation(load_images('entities/mario/idle'), img_dur=6),
             'player/run': Animation(load_images('entities/mario/run'), img_dur=4),
@@ -47,7 +48,7 @@ class GameController:
             'player/flag': Animation(load_images('entities/mario/flag'), img_dur=4),
             'player/pipeHorizontal': Animation(load_images('entities/mario/pipeHorizontal'), img_dur=4),
             'player/pipeVertical': Animation(load_images('entities/mario/pipeVertical'), img_dur=6),
-            #'powerUps/mushroom': load_image('entities/powerUps/Mushrooms/mushroom.png')
+            # 'powerUps/mushroom': load_image('entities/powerUps/Mushrooms/mushroom.png')
         }
 
         self.tilemap = None
@@ -79,9 +80,9 @@ class GameController:
     def updateCamera(self):
 
         # camera follows the player with a smooth effect , MIGHT CHANGE VALUES LATER
-        self.camera[0] += (self.player.position[0] - self.camera[0] - VIRTUALSCREEN_WIDTH / 2 + self.player.size[
+        self.camera[0] += (self.player.pos[0] - self.camera[0] - VIRTUALSCREEN_WIDTH / 2 + self.player.size[
             0] / 2) / CAMERA_FOLLOW_RATE
-        self.camera[1] += (self.player.position[1] - self.camera[1] - VIRTUALSCREEN_HEIGHT / 2 + self.player.size[
+        self.camera[1] += (self.player.pos[1] - self.camera[1] - VIRTUALSCREEN_HEIGHT / 2 + self.player.size[
             1] / 2) / CAMERA_FOLLOW_RATE
         self.render_camera = [(self.camera[0]), (self.camera[1])]
 
@@ -91,10 +92,8 @@ class GameController:
             pygame.quit()
             quit()
 
-
         if self.gameStateManager.gameState == "Level 1":
             self.Level1.updateLevel1()
-
 
         self.clock.tick(FPS)
         self.checkGameEvents()
@@ -104,10 +103,8 @@ class GameController:
 
         eventList = pygame.event.get()
 
-
         if self.gameStateManager.gameState == "Level 1":
             self.Level1.checkEvents(eventList)
-
 
         for event in eventList:
             if event.type == pygame.QUIT:

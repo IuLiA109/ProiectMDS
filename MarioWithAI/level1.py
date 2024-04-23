@@ -17,7 +17,8 @@ class Level1:
         self.game.tilemap = Tilemap(self.game)
 
         ''' Incarcam pe tilemap harta levelului 1 '''
-        self.game.tilemap.load("Levels/level1.json")
+        # levels/level1.json
+        self.game.tilemap.load("map.json")
 
         self.enemiesList.append(Enemy(self.game))
         self.enemiesList.append(Enemy(self.game))

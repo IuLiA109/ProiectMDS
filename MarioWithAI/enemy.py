@@ -12,14 +12,18 @@ class Enemy(PhysicsEntity):
         self.walking_animation_frame = 0
         self.walking_animation_duration = 250
         self.walking_animation_timer = 0
-        self.image = load_image(self.game.assets['enemy/run'] + str(self.walking_animation_frame) + '.png')
+        self.image = self.game.assets['enemy']
+        self.animation = self.game.assets['enemy/run'].copy()
 
+    '''
     def update_animation(self):
         self.walking_animation_timer += self.game.clock.get_time()
         if self.walking_animation_timer >= self.walking_animation_duration:
             self.walking_animation_timer = 0
             self.walking_animation_frame = 1 - self.walking_animation_frame
             self.image = load_image(self.game.assets['enemy/run'] + str(self.walking_animation_frame) + '.png')
+
+    '''
 
     def die(self):
         self.game.Level1.enemiesList.remove(self)
@@ -70,8 +74,10 @@ class Enemy(PhysicsEntity):
             self.action = 'stay'
             self.die()
 
+        self.animation.update()
+       #  self.update_animation()
 
-        self.update_animation()
-
+    '''
     def render(self, surf):
         surf.blit(self.image, self.pos)
+    '''
