@@ -3,7 +3,7 @@ from xml.dom.minidom import Entity
 
 import pygame
 
-from MarioWithAI.game import GameController
+from game import GameController
 from constants import *
 from gameStateManager import GameStateManager
 from utils import load_images, load_image
