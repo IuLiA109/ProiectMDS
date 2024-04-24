@@ -34,7 +34,7 @@ class Enemy(PhysicsEntity):
 
         if enemy_rect.colliderect(player_rect):
             #print(player_rect.x, player_rect.y, enemy_rect.x, enemy_rect.y)
-            if enemy_rect.x - self.size[0]//2 <= player_rect.x <= enemy_rect.x + self.size[0]//2 and enemy_rect.y - self.size[1] <= player_rect.y <= enemy_rect.y - 1 :
+            if enemy_rect.x - self.size[0]//8*7 <= player_rect.x <= enemy_rect.x + self.size[0] and enemy_rect.y - self.size[1] <= player_rect.y <= enemy_rect.y - 1 :
                 self.die()
             else:
                 self.game.running = False
