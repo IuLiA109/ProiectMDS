@@ -7,7 +7,7 @@ from entities import PhysicsEntity
 class Enemy(PhysicsEntity):
     def __init__(self, game, pos=(0, 0), size=(16, 16)):
         super().__init__(game, 'enemy', pos, size)
-        self.walking = 1
+        self.walking = 0
         self.index = 0
         self.walking_animation_frame = 0
         self.walking_animation_duration = 250
@@ -51,6 +51,12 @@ class Enemy(PhysicsEntity):
                     enemy.flip = not enemy.flip
                     enemy.movement = (- 0.5 if enemy.flip else  0.5, enemy.movement[1])
 
+    def isOnScreen(self):
+        if self.game.camera[0] + VIRTUALSCREEN_WIDTH < self.pos[0]:
+            return False
+        self.walking = 1
+        return True
+
     def update(self):
         if self.walking:
             if (self.collisions['right'] or self.collisions['left']):
@@ -60,8 +66,8 @@ class Enemy(PhysicsEntity):
             else:
                 self.movement = (- 0.5 if self.flip else  0.5, self.movement[1])
             #self.walking = max(0, self.walking - 1)
-        elif random.random() < 0.01:
-            self.walking = random.randint(160, 1600)
+        #elif random.random() < 0.01:
+            #self.walking = random.randint(160, 1600)
 
         self.check_collision_with_player()
         self.check_collision_with_other_enemy()

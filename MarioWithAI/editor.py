@@ -1,13 +1,6 @@
 import sys
-from xml.dom.minidom import Entity
 
-import pygame
-
-from game import GameController
-from constants import *
-from gameStateManager import GameStateManager
-from utils import load_images, load_image
-from level1 import Level1
+from utils import load_image
 from tiles import *
 from constants import *
 
@@ -25,6 +18,13 @@ class Editor:
         self.assets = {
             'floor': load_image('tiles/floor.png'),
             'wall': load_image('tiles/wall.png'),
+            'brick_wall': load_image('tiles/brick_wall.png'),
+            'mystery': load_image('tiles/mysteryBlocks/mystery1.png'),
+            'pipe_up': load_image('tiles/pipes/pipe_up.png'),
+            'pipe_extension': load_image('tiles/pipes/pipe_extension.png'),
+            'invisible_block': load_image('tiles/invisible_block.png'),
+            'end_flag': load_image('tiles/end_flag.png'),
+            'castle': load_image('tiles/castle.png'),
             # 'platform': load_image('tiles/platform.png'),
             # 'mistery': load_image('tiles/mistery.png'),
         }

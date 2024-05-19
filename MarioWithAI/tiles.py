@@ -2,7 +2,7 @@ import pygame
 import json
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)]
-PHYSICS_TILES = {'floor', 'wall', 'platform', 'mistery'}
+PHYSICS_TILES = {'floor', 'wall', 'brick_wall', 'mystery', 'pipe_up', 'pipe_extension', 'invisible_block'}
 
 
 class Tilemap:
@@ -52,8 +52,8 @@ class Tilemap:
             surf.blit(self.game.assets[tile['type']],
                       (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
 
-        for x in range(offset[0] // self.tile_size, (offset[0] + surf.get_width()) // self.tile_size + 1):
-            for y in range(offset[1] // self.tile_size, (offset[1] + surf.get_height()) // self.tile_size + 1):
+        for x in range(int(offset[0] // self.tile_size), int((offset[0] + surf.get_width()) // self.tile_size + 1)):
+            for y in range(int(offset[1] // self.tile_size), int((offset[1] + surf.get_height()) // self.tile_size + 1)):
                 loc = str(x) + ';' + str(y)
                 if loc in self.tilemap:
                     tile = self.tilemap[loc]
