@@ -12,6 +12,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
     def __init__(self, game, pos=(0, 0), size=(16, 16)):
         super().__init__(game, 'player', pos, size)
         self.air_time = 0
+        self.acceleration = [0, 0]
 
         # Animation frames
         '''
@@ -68,18 +69,44 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             self.set_action('run')
         else: self.set_action('idle')
 
+
+    def updateVelocity(self):
+        # Apply acceleration to velocity
+        self.velocity[0] += self.acceleration[0] * 1/10
+
+        #self.velocity[1] = max(-5, self.velocity[1])
+        if self.velocity[0] > 5:
+            self.velocity[0] = 5
+        if self.velocity[0] < -5:
+            self.velocity[0] = -5
+
+        # Apply friction to velocity for smooth stopping
+        self.velocity[0] *= (1 - FRICTION)
+
+    def move(self):
+        self.updateVelocity()
+        super().move()
+
     def checkEvents(self, eventList):
         for event in eventList:
             # Movement with W A S D and arrows
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
-                    self.velocity[1] = -PLAYER_SPEED * 2
+                    # jump only if player is on the ground
+                    #if self.velocity[1] == 0:
+                    self.velocity[1] = -PLAYER_SPEED * 4
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     self.velocity[1] = PLAYER_SPEED
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                    self.velocity[0] = -PLAYER_SPEED
+                    if self.acceleration[0] > 0:
+                        self.acceleration[0] = 0
+                    else:
+                        self.acceleration[0] = -PLAYER_SPEED
                 if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                    self.velocity[0] = PLAYER_SPEED
+                    if self.acceleration[0] < 0:
+                        self.acceleration[0] = 0
+                    else:
+                        self.acceleration[0] = PLAYER_SPEED
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
@@ -87,9 +114,15 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     self.velocity[1] = 0
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                    self.velocity[0] = 0
+                    if self.acceleration[0] == 0:
+                        self.acceleration[0] = PLAYER_SPEED
+                    else:
+                        self.acceleration[0] = 0
                 if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                    self.velocity[0] = 0
+                    if self.acceleration[0] == 0:
+                        self.acceleration[0] = -PLAYER_SPEED
+                    else:
+                        self.acceleration[0] = 0
 
     '''
     def render(self, surf):

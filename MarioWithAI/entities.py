@@ -14,13 +14,13 @@ class PhysicsEntity:
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
         self.movement = [0, 0]
         self.flip = False
-        #self.action = 'stay'
+        # self.action = 'stay'
 
-        #teo worked here
+        # teo worked here
         self.action = ''
-        #self.anim_offset = (-3, -3)
+        # self.anim_offset = (-3, -3)
         self.anim_offset = (0, 0)
-        self.set_action('run') # aici era 'idle'
+        self.set_action('run')  # aici era 'idle'
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
@@ -29,9 +29,8 @@ class PhysicsEntity:
         if action != self.action:
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
-        
 
-    def update(self):
+    def move(self):
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
 
         frame_movement = (self.movement[0] + self.velocity[0], self.movement[1] + self.velocity[1])
@@ -60,22 +59,24 @@ class PhysicsEntity:
                     self.collisions['up'] = True
                 self.pos[1] = entity_rect.y
 
-        if self.movement[0] > 0:
-            self.flip = False
-        if self.movement[0] < 0:
-            self.flip = True
-
+        # self.velocity[0] = self.velocity[0] * 0.9
         self.velocity[1] = min(5, self.velocity[1] + 0.1)
 
         if self.collisions['down'] or self.collisions['up']:
             self.velocity[1] = 0
 
+    def updateFacingDirection(self):
+        if self.movement[0] > 0:
+            self.flip = False
+        else:
+            self.flip = True
+
+    def update(self):
+
+        self.move()
+        self.updateFacingDirection()
         self.animation.update()
 
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False),
-                                        (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
-                                        
-
-
-
+                  (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))

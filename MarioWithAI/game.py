@@ -23,6 +23,7 @@ class GameController:
         self.camera = [0, 0]
         self.render_camera = [0, 0]
 
+
         self.background = pygame.Surface((VIRTUALSCREEN_WIDTH, VIRTUALSCREEN_HEIGHT))
         self.background.fill((100, 50, 80))
 
@@ -121,8 +122,13 @@ class GameController:
     def updateCamera(self):
 
         # camera follows the player with a smooth effect , MIGHT CHANGE VALUES LATER
+        last_camera = self.camera[0]
+
         self.camera[0] += (self.player.pos[0] - self.camera[0] - VIRTUALSCREEN_WIDTH / 2 + self.player.size[
             0] / 2) / CAMERA_FOLLOW_RATE
+
+        if self.camera[0] < last_camera:
+            self.camera[0] = last_camera
         #self.camera[1] += (self.player.pos[1] - self.camera[1] - VIRTUALSCREEN_HEIGHT / 2 + self.player.size[
            # 1] / 2) / CAMERA_FOLLOW_RATE
         self.render_camera = [(self.camera[0]), (self.camera[1])]

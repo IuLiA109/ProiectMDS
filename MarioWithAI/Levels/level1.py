@@ -22,7 +22,7 @@ class Level1(Level):
         # levels/level1.json
         self.game.tilemap.load("map.json")
 
-        self.enemiesList.append(Enemy(self.game))
+        #self.enemiesList.append(Enemy(self.game))
         self.enemiesList.append(Enemy(self.game))
         self.enemiesList.append(Enemy(self.game))
         #enemy1 = Enemy(self)
@@ -30,9 +30,9 @@ class Level1(Level):
 
         ''' Setam pozitia initiala a playerului '''
         self.game.player.pos = [50, 10]
-        self.enemiesList[0].pos = [70, 10]
+        # self.enemiesList[0].pos = [70, 10]
         self.enemiesList[1].pos = [200, 10]
-        self.enemiesList[2].pos = [270, 10]
+        self.enemiesList[0].pos = [270, 10]
 
     def checkEvents(self, eventList):
         super().checkEvents(eventList)

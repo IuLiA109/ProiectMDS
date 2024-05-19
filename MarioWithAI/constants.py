@@ -29,7 +29,8 @@ NEIGHBOURS_OFFSET = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0
 TILESIZE = 32
 
 
-PLAYER_SPEED = 2
+PLAYER_SPEED = 1
+FRICTION = 0.06
 
 FPS = 90
 
