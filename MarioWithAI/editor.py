@@ -1,13 +1,6 @@
 import sys
-from xml.dom.minidom import Entity
 
-import pygame
-
-from game import GameController
-from constants import *
-from gameStateManager import GameStateManager
-from utils import load_images, load_image
-from level1 import Level1
+from utils import load_image
 from tiles import *
 from constants import *
 

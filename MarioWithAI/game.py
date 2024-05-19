@@ -1,14 +1,10 @@
-from xml.dom.minidom import Entity
-
-import pygame
 from constants import *
 # from player import Player
 from tiles import *
 from gameStateManager import GameStateManager
 from utils import load_image, load_images, Animation
 from player import Player
-from level1 import Level1
-from enemy import Enemy
+from Levels.level1 import Level1
 
 
 class GameController:
@@ -31,6 +27,7 @@ class GameController:
         self.background.fill((100, 50, 80))
 
         self.movement = [False, False]
+        self.loadingImage = pygame.image.load("data/images/menus/LoadingScreenImage.png").convert_alpha()
 
         self.assets = {
             'floor': load_image('tiles/floor.png'),
@@ -59,6 +56,10 @@ class GameController:
         self.Level2 = None
         self.Level3 = None
 
+        # Game information:
+        self.current_world = 1
+        self.current_level = 1
+
     def startGame(self):
         # load the lobby as the first scene
         self.Level1 = Level1(self)
@@ -73,6 +74,46 @@ class GameController:
         self.Level1.init_Level_1()
     '''
 
+    def saveGame(self):
+        self.player.savePlayer()
+
+        directory = "saves/"
+        file = open(directory + 'gameSave1.json', 'w')
+
+        data = {}
+        data['CURRENT_WORLD'] = self.current_world
+        data['CURRENT_LEVEL'] = self.current_level
+
+        json_data = json.dumps(data, indent=4)
+        file.write(json_data)
+
+    def loadGame(self):
+        directory = "saves/"
+        file = open(directory + 'gameSave1.json', 'r')
+        data = json.load(file)
+
+        self.current_world = data['CURRENT_WORLD']
+        self.current_level = data['CURRENT_LEVEL']
+
+        self.player.loadPlayer()
+
+    def advanceToNextLevel(self):
+
+        self.current_level += 1
+
+        if self.current_level > 4:
+            self.current_level = 1
+            self.current_world += 1
+
+        self.saveGame()
+
+    def renderLoadingScreen(self):
+
+        loadingScreenImg = self.loadingImage
+        loadingScreenImg = pygame.transform.scale(loadingScreenImg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.screen.blit(loadingScreenImg, (0, 0))
+        pygame.display.flip()
+
     def updatePlayer(self):
         # update the player
         self.player.update()
@@ -82,8 +123,8 @@ class GameController:
         # camera follows the player with a smooth effect , MIGHT CHANGE VALUES LATER
         self.camera[0] += (self.player.pos[0] - self.camera[0] - VIRTUALSCREEN_WIDTH / 2 + self.player.size[
             0] / 2) / CAMERA_FOLLOW_RATE
-        self.camera[1] += (self.player.pos[1] - self.camera[1] - VIRTUALSCREEN_HEIGHT / 2 + self.player.size[
-            1] / 2) / CAMERA_FOLLOW_RATE
+        #self.camera[1] += (self.player.pos[1] - self.camera[1] - VIRTUALSCREEN_HEIGHT / 2 + self.player.size[
+           # 1] / 2) / CAMERA_FOLLOW_RATE
         self.render_camera = [(self.camera[0]), (self.camera[1])]
 
     def update(self):
@@ -93,7 +134,7 @@ class GameController:
             quit()
 
         if self.gameStateManager.gameState == "Level 1":
-            self.Level1.updateLevel1()
+            self.Level1.updateLevel()
 
         self.clock.tick(FPS)
         self.checkGameEvents()
@@ -118,7 +159,7 @@ class GameController:
         # --- Rendering the correct Scene based on the gameState ---
 
         if self.gameStateManager.gameState == "Level 1":
-            self.Level1.renderLevel1(self.virtual_screen)
+            self.Level1.renderLevel(self.virtual_screen, self.render_camera)
 
         # --- Rendering the correct Scene based on the gameState ---
 

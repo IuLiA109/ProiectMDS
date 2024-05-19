@@ -34,7 +34,7 @@ PLAYER_SPEED = 2
 FPS = 90
 
 # In Mario this might actually be just 1, we'll see
-CAMERA_FOLLOW_RATE = 5
+CAMERA_FOLLOW_RATE = 10
 
 ENEMY_SPEED = 2
 

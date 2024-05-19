@@ -4,14 +4,16 @@ from enemy import Enemy
 from constants import *
 from tiles import *
 from gameStateManager import GameStateManager
+from Levels.level import Level
 
-class Level1:
+class Level1(Level):
     def __init__(self, game):
-        self.game = game
-        self.enemiesList = []
-        self.init_Level_1()
+        super().__init__(game)
+        self.init_Level()
 
-    def init_Level_1(self):
+    def init_Level(self):
+        self.game.player.loadNewPlayer()
+        # super().init_Level()
 
         self.game.background.fill((108, 190, 237))
         self.game.tilemap = Tilemap(self.game)
@@ -32,23 +34,11 @@ class Level1:
         self.enemiesList[1].pos = [200, 10]
         self.enemiesList[2].pos = [270, 10]
 
-
-    def updateLevel1(self):
-        self.game.updateCamera()
-        self.game.player.update()
-        for enemy in self.enemiesList:
-            enemy.update()
-
-
     def checkEvents(self, eventList):
-        self.game.player.checkEvents(eventList)
-
-    def renderLevel1(self, surf):
-
-        self.game.tilemap.render(surf)
-        self.game.player.render(surf)
-        for enemy in self.enemiesList:
-            enemy.render(surf)
+        super().checkEvents(eventList)
+        ''' Here we check for the event of ending the Level and going through to the next one '''
+        # if Something ->
+        # then self.game.gameStateManager.switchGameState("Level 2")
 
 
 

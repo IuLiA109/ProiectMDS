@@ -1,3 +1,5 @@
+import json
+
 import pygame
 #import game
 from constants import *
@@ -26,13 +28,32 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.image = self.animation_frames[self.current_frame]
         '''
 
-        # self.image = self.game.assets['player']
+        self.lives = 3
+        self.score = 0
+        self.coins = 0
 
-        #self.size = size
-        #self.position = list(pos)
+    def savePlayer(self):
+        directory = "saves/"
+        file = open(directory + 'playerSave.json', 'w')
 
-        #self.game = game
-        #self.speed = PLAYER_SPEED
+        data = {}
+        data['LIVES'] = self.lives
+        data['SCORE'] = self.score
+        data['COINS'] = self.coins
+
+    def loadPlayer(self):
+        directory = "saves/"
+        file = open(directory + 'playerSave.json', 'r')
+        data = json.load(file)
+
+        self.lives = data['LIVES']
+        self.score = data['SCORE']
+        self.coins = data['COINS']
+
+    def loadNewPlayer(self):
+        self.lives = 3
+        self.score = 0
+        self.coins = 0
 
     def update(self, movement=(0,0)):
         super().update()
