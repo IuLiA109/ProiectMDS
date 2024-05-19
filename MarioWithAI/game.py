@@ -20,7 +20,7 @@ class GameController:
 
         self.gameStateManager = GameStateManager("Level 1")
 
-        self.camera = [0, 0]
+        self.camera = [0, -60]
         self.render_camera = [0, 0]
 
 
@@ -33,6 +33,13 @@ class GameController:
         self.assets = {
             'floor': load_image('tiles/floor.png'),
             'wall': load_image('tiles/wall.png'),
+            'brick_wall': load_image('tiles/brick_wall.png'),
+            'mystery': load_image('tiles/mysteryBlocks/mystery1.png'),
+            'pipe_up': load_image('tiles/pipes/pipe_up.png'),
+            'pipe_extension': load_image('tiles/pipes/pipe_extension.png'),
+            'invisible_block': load_image('tiles/invisible_block.png'),
+            'end_flag': load_image('tiles/end_flag.png'),
+            'castle': load_image('tiles/castle.png'),
             # 'platform': load_image('tiles/platform.png'),
             # 'mistery': load_image('tiles/mistery.png'),
             'player': load_image('entities/mario/mario.png'),

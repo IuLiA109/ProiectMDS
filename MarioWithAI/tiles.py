@@ -2,7 +2,7 @@ import pygame
 import json
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)]
-PHYSICS_TILES = {'floor', 'wall', 'platform', 'mistery'}
+PHYSICS_TILES = {'floor', 'wall', 'brick_wall', 'mystery', 'pipe_up', 'pipe_extension', 'invisible_block'}
 
 
 class Tilemap:
