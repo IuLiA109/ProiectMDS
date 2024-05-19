@@ -4,6 +4,8 @@ class Level:
     def __init__(self, game):
         self.game = game
         self.enemiesList = []
+        self.enemiesPositions = []
+        self.nrOfEnemies = 0
         self.current_time = 300
 
     def checkEvents(self, eventList):
@@ -16,6 +18,8 @@ class Level:
         self.game.updateCamera()
         self.game.player.update()
         for enemy in self.enemiesList:
+            # will only update enemies that are in range with player
+            enemy.isOnScreen()
             enemy.update()
 
     def renderLevel(self, surf, offset=(0, 0)):

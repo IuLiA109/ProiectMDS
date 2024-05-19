@@ -25,7 +25,8 @@ class GameController:
 
 
         self.background = pygame.Surface((VIRTUALSCREEN_WIDTH, VIRTUALSCREEN_HEIGHT))
-        self.background.fill((100, 50, 80))
+        self.background.fill((92, 148, 252))
+        self.background_image = load_image('background.png')
 
         self.movement = [False, False]
         self.loadingImage = pygame.image.load("data/images/menus/LoadingScreenImage.png").convert_alpha()
@@ -168,6 +169,8 @@ class GameController:
 
         # render background on the virtual screen
         self.virtual_screen.blit(self.background, (0, 0))
+        self.background.fill((92, 148, 252))
+        self.virtual_screen.blit(self.background_image, (-self.camera[0], 45))
 
         # --- Rendering the correct Scene based on the gameState ---
 

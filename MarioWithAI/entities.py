@@ -13,7 +13,7 @@ class PhysicsEntity:
         self.velocity = [0, 0]
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
         self.movement = [0, 0]
-        self.flip = False
+        self.flip = True
         # self.action = 'stay'
 
         # teo worked here
