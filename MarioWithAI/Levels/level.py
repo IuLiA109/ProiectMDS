@@ -37,7 +37,7 @@ class Level:
 
         for enemy in self.enemiesList:
             # will only update enemies that are in range with player
-            enemy.isOnScreen()
+            enemy.showIfIsOnScreen()
             enemy.update()
         for powerUp in self.powerUpsList:
             powerUp.isOnScreen()

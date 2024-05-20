@@ -29,7 +29,7 @@ class Level1(Level):
         self.game.tilemap.load("Maps/map1.json")
 
         for i in range(self.nrOfEnemies):
-            self.enemiesList.append(Enemy(self.game, self.enemiesPositions[i]))
+            self.enemiesList.append(Enemy(self.game, "goombas", self.enemiesPositions[i]))
 
         ''' Setam pozitia initiala a playerului '''
         self.game.player.pos = [50, 10]
