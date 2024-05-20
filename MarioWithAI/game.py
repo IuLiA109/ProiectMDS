@@ -7,7 +7,7 @@ from gameStateManager import GameStateManager
 from utils import load_image, load_images, Animation
 from player import Player
 from Levels.level1 import Level1
-
+from hud import HUD
 
 class GameController:
     def __init__(self):
@@ -65,21 +65,24 @@ class GameController:
         self.tilemap = None
         self.player = Player(self)
 
-        # Scenes
-        self.Level1 = None
-        self.Level2 = None
-        self.Level3 = None
-
         # Game information:
         self.current_world = 1
         self.current_level = 1
 
+        # Scenes
+        self.Level1 = Level1(self)
+        self.Level2 = None
+        self.Level3 = None
+
+        # Game HUD:
+        self.hud = HUD(self)
+
     def startGame(self):
         # load the lobby as the first scene
-        self.Level1 = Level2(self)
-        '''
-        self.loadLevel1()
-        '''
+        #self.Level1 = Level1(self)
+
+        #self.loadLevel1()
+
         pass
 
     '''
@@ -155,6 +158,8 @@ class GameController:
         if self.gameStateManager.gameState == "Level 1":
             self.Level1.updateLevel()
 
+        self.hud.updateHUD()
+
         self.clock.tick(FPS)
         self.checkGameEvents()
         self.render()
@@ -176,6 +181,8 @@ class GameController:
         self.virtual_screen.blit(self.background, (0, 0))
         self.background.fill((92, 148, 252))
         self.virtual_screen.blit(self.background_image, (-self.camera[0], 45))
+
+        self.hud.renderHUD(self.virtual_screen)
 
         # --- Rendering the correct Scene based on the gameState ---
 

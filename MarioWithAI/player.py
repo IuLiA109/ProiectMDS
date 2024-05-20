@@ -69,6 +69,8 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             self.set_action('run')
         else: self.set_action('idle')
 
+        # self.score += 10
+        # self.coins += 1
 
     def updateVelocity(self):
         # Apply acceleration to velocity

@@ -10,6 +10,7 @@ class Level:
         self.nrOfEnemies = 0
         self.nrOfPowerUps = 0
         self.current_time = 300
+        self.aux_time = 100
 
     def checkEvents(self, eventList):
         self.game.player.checkEvents(eventList)
@@ -17,9 +18,23 @@ class Level:
     def init_Level(self):
         self.game.player.loadPlayer()
 
+    def updateTime(self):
+        ''' metoda auxiliara pana implementez un cronometru care merge si pentru Pauza '''
+
+        self.aux_time -= 2.5
+        if self.aux_time <= 0:
+            self.current_time -= 1
+            self.aux_time = 100
+
     def updateLevel(self):
+
+        if self.current_time <= 0:
+            self.game.gameStateManager.switchGameState("Menu", "Game Over Menu") # Or Start Menu
+
         self.game.updateCamera()
         self.game.player.update()
+        self.updateTime()
+
         for enemy in self.enemiesList:
             # will only update enemies that are in range with player
             enemy.isOnScreen()
