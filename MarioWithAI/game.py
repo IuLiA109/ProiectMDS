@@ -8,6 +8,7 @@ from utils import load_image, load_images, Animation
 from player import Player
 from Levels.level1 import Level1
 from hud import HUD
+from menu import Menu
 
 class GameController:
     def __init__(self):
@@ -20,11 +21,12 @@ class GameController:
         self.clock = pygame.time.Clock()
         self.running = True
 
-        self.gameStateManager = GameStateManager("Level 1")
+        self.gameStateManager = GameStateManager(self, "Level 1")
+        self.menu = Menu(self, "Pause Menu")
 
         self.camera = [0, -60]
         self.render_camera = [0, 0]
-
+        self.eventList = None
 
         self.background = pygame.Surface((VIRTUALSCREEN_WIDTH, VIRTUALSCREEN_HEIGHT))
         self.background.fill((92, 148, 252))
@@ -73,6 +75,7 @@ class GameController:
         self.Level1 = Level1(self)
         self.Level2 = None
         self.Level3 = None
+        self.currentLevel = self.Level1
 
         # Game HUD:
         self.hud = HUD(self)
@@ -155,25 +158,44 @@ class GameController:
             pygame.quit()
             quit()
 
+        if self.gameStateManager.gameState == "Menu":
+            self.menu.update()
+
         if self.gameStateManager.gameState == "Level 1":
             self.Level1.updateLevel()
 
         self.hud.updateHUD()
 
-        self.clock.tick(FPS)
+        # I don't want the clock to be ticking when in the menu
+        # As I could exploit the time
+        if self.gameStateManager.gameState != "Menu":
+            self.clock.tick(FPS)
+
         self.checkGameEvents()
         self.render()
 
+    def resetPlayerMovement(self):
+        self.player.movement = [0, 0]
+        self.player.acceleration = [0, 0]
+        self.player.velocity = [0, 0]
+
     def checkGameEvents(self):
 
-        eventList = pygame.event.get()
+        self.eventList = pygame.event.get()
 
         if self.gameStateManager.gameState == "Level 1":
-            self.Level1.checkEvents(eventList)
+            self.Level1.checkEvents(self.eventList)
 
-        for event in eventList:
+        for event in self.eventList:
             if event.type == pygame.QUIT:
                 self.running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    if self.gameStateManager.gameState != "Menu":
+                        self.gameStateManager.switchGameState("Menu","Pause Menu")
+                    else:
+                        self.gameStateManager.returnToPreviousGameState()
+
 
     def render(self):
 
@@ -190,6 +212,11 @@ class GameController:
             self.Level1.renderLevel(self.virtual_screen, self.render_camera)
 
         # --- Rendering the correct Scene based on the gameState ---
+
+
+        if self.gameStateManager.gameState == "Menu":
+            self.currentLevel.renderLevel(self.virtual_screen, self.render_camera)
+            self.menu.render(self.virtual_screen)
 
         # scale the virutal screen onto the actual screen
         scaledScreen = pygame.transform.scale(self.virtual_screen, (SCREEN_WIDTH, SCREEN_HEIGHT), self.screen)
