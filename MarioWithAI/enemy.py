@@ -5,14 +5,16 @@ from utils import load_image
 from constants import *
 from entities import PhysicsEntity
 class Enemy(PhysicsEntity):
-    def __init__(self, game, pos=(0, 0), size=(16, 16)):
+    def __init__(self, game, name, pos=(0, 0), size=(16, 16)):
         super().__init__(game, 'enemy', pos, size)
+        self.name = name
         self.walking = 0
         self.index = 0
         self.walking_animation_frame = 0
         self.walking_animation_duration = 250
         self.walking_animation_timer = 0
-        self.image = self.game.assets['enemy']
+        self.animation = self.game.assets[self.type + '/' + self.name + '/' + self.action].copy()
+        #self.image = self.game.assets['enemy']
         # self.animation = self.game.assets['enemy/run'].copy()
 
     '''
@@ -51,7 +53,7 @@ class Enemy(PhysicsEntity):
                     enemy.flip = not enemy.flip
                     enemy.movement = (- 0.5 if enemy.flip else  0.5, enemy.movement[1])
 
-    def isOnScreen(self):
+    def showIfIsOnScreen(self):
         if self.game.camera[0] + VIRTUALSCREEN_WIDTH < self.pos[0]:
             return False
         self.walking = 1

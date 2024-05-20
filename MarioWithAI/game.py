@@ -49,7 +49,9 @@ class GameController:
             # 'mistery': load_image('tiles/mistery.png'),
             'player': load_image('entities/mario/mario.png'),
             'enemy': load_image('entities/enemy/goombas/red/run/0.png'),
-            'enemy/run': Animation(load_images('entities/enemy/goombas/red/run/'), img_dur=25),
+            'enemy/run': Animation(load_images('entities/enemy/goombas/blue/run/'), img_dur=25),
+            'enemy/goombas/run': Animation(load_images('entities/enemy/goombas/red/run/'), img_dur=25),
+            'enemy/koopas/run': Animation(load_images('entities/enemy/koopas/green/run/'), img_dur=25),
             'clouds': 'clouds/',
             'player/idle': Animation(load_images('entities/mario/idle'), img_dur=6),
             'player/run': Animation(load_images('entities/mario/run'), img_dur=4),
@@ -153,6 +155,7 @@ class GameController:
         self.render_camera = [(self.camera[0]), (self.camera[1])]
 
     def update(self):
+        print(self.currentLevel.enemiesList[0].pos)
 
         if self.running == False:
             pygame.quit()
