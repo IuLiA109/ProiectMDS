@@ -28,20 +28,18 @@ class Editor:
             # 'platform': load_image('tiles/platform.png'),
             # 'mistery': load_image('tiles/mistery.png'),
         }
-
+        self.nume = input('Numele fisierului de deschis: ')
         self.movement = [False, False, False, False]
         self.tilemap = Tilemap(self, tile_size=16)
         try:
-            self.tilemap.load('map.json')
+            self.tilemap.load('Maps/' + self.nume + '.json')
         except FileNotFoundError:
-            pass
+            print('Nu exista fisierul cu numele ' + self.nume + '.json')
+            if input('Doresti sa creezi unul nou? (y/n) ') == 'y':
+                pass
+            else:
+                sys.exit()
 
-
-
-        try:
-            self.tilemap.load('map.json')
-        except FileNotFoundError:
-            pass
 
         self.scroll = [0, 0]
 
@@ -147,7 +145,8 @@ class Editor:
                     if event.key == pygame.K_t:
                         self.tilemap.autotile()
                     if event.key == pygame.K_o:
-                        self.tilemap.save('map.json')
+                        self.tilemap.save('Maps/' + self.nume + '.json')
+                        print('Harta salvata cu succes')
                     if event.key == pygame.K_g:
                         self.ongrid = not self.ongrid
                     if event.key == pygame.K_LSHIFT:

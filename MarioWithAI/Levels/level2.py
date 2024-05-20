@@ -1,15 +1,15 @@
-import pygame
-
 from enemy import Enemy
-from constants import *
+from powerUps import PowerUp
+
 from tiles import *
-from gameStateManager import GameStateManager
+
 from Levels.level import Level
 
 
-class Level1(Level):
+class Level2(Level):
     def __init__(self, game):
         super().__init__(game)
+
         self.init_Level()
 
     def init_Level(self):
@@ -19,17 +19,19 @@ class Level1(Level):
         self.game.background.fill((108, 190, 237))
         self.game.tilemap = Tilemap(self.game)
 
-        self.enemiesPositions = [(400, 200), (650, 200), (850, 200), (1108, 10), (1140, 10), (1368, 200), (1388, 200),
-                                 (1528, 200), (1638, 200), (1658, 200), (1942, 200), (1962, 200), (2002, 200),
-                                 (2027, 200), (2646, 200), (2666, 200)]
-        self.nrOfEnemies = 16
+        self.enemiesPositions = []
+        self.nrOfEnemies = 0
 
-        ''' Incarcam pe tilemap harta levelului 1 '''
-        # levels/level1.json
-        self.game.tilemap.load(r"Maps\map1.json")
+        self.powerUpsPositions = [(6, 6)]
+        self.nrOfPowerUps = 1
+
+        self.game.tilemap.load(r"Maps\map2.json")
 
         for i in range(self.nrOfEnemies):
             self.enemiesList.append(Enemy(self.game, self.enemiesPositions[i]))
+
+        for i in range(self.nrOfPowerUps):
+            self.powerUpsList.append(PowerUp(self.game, self.powerUpsPositions[i]))
 
         ''' Setam pozitia initiala a playerului '''
         self.game.player.pos = [50, 10]

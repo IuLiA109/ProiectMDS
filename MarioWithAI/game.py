@@ -1,3 +1,5 @@
+
+from Levels.level2 import Level2
 from constants import *
 # from player import Player
 from tiles import *
@@ -54,7 +56,10 @@ class GameController:
             'player/flag': Animation(load_images('entities/mario/flag'), img_dur=4),
             'player/pipeHorizontal': Animation(load_images('entities/mario/pipeHorizontal'), img_dur=4),
             'player/pipeVertical': Animation(load_images('entities/mario/pipeVertical'), img_dur=6),
-            # 'powerUps/mushroom': load_image('entities/powerUps/Mushrooms/mushroom.png')
+            # 'powerUps/mushroom': load_image('entities/powerUps/Mushrooms/2.png')
+            'powerUp/mushroom': load_image('entities/powerUps/Mushrooms/mushroom.png'),
+            'powerUp/mushroom/run': Animation(load_images('entities/powerups/Mushrooms/move/'), img_dur=6),
+            'powerUp/mushroom/idle': Animation(load_images('entities/powerups/Mushrooms/move/'), img_dur=6),
         }
 
         self.tilemap = None
@@ -71,7 +76,7 @@ class GameController:
 
     def startGame(self):
         # load the lobby as the first scene
-        self.Level1 = Level1(self)
+        self.Level1 = Level2(self)
         '''
         self.loadLevel1()
         '''

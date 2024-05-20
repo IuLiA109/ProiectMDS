@@ -74,6 +74,7 @@ class Enemy(PhysicsEntity):
 
         super().update()
 
+
         if self.pos[1] <= self.game.virtual_screen.get_height():
             self.action = 'run'
         else:

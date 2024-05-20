@@ -1,11 +1,7 @@
 import pygame
-import random
-
-from utils import load_image
-
 
 class PhysicsEntity:
-    def __init__(self, game, e_type, pos, size):
+    def __init__(self, game, e_type, pos, size,action = 'run'):
         self.game = game
         self.type = e_type
         self.pos = list(pos)
@@ -20,7 +16,7 @@ class PhysicsEntity:
         self.action = ''
         # self.anim_offset = (-3, -3)
         self.anim_offset = (0, 0)
-        self.set_action('run')  # aici era 'idle'
+        self.set_action(action)  # aici era 'idle' # am pus incat a se putea seta action #Sumi
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])

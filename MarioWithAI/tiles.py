@@ -14,9 +14,9 @@ class Tilemap:
 
         #Il opresc momentan #Sumi
         #for i in range(30):
-         #   self.tilemap[str(3 + i) + ';10'] = {'type': 'floor', 'variant': 0, 'pos': (3 + i, 10)}
-          #  self.tilemap['10;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (10, 5 + i)}
-           # self.tilemap['20;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (20, 5 + i)}
+        #   self.tilemap[str(3 + i) + ';10'] = {'type': 'floor', 'variant': 0, 'pos': (3 + i, 10)}
+        #  self.tilemap['10;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (10, 5 + i)}
+        # self.tilemap['20;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (20, 5 + i)}
 
     #Sumi was here
     def load(self, filename):
@@ -27,7 +27,6 @@ class Tilemap:
         self.tilemap = data['tilemap']
         self.tile_size = data['tile_size']
         self.offgrid_tiles = data['offgrid_tiles']
-
 
     def tiles_around(self, pos):
         tiles = []
@@ -53,13 +52,13 @@ class Tilemap:
                       (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
 
         for x in range(int(offset[0] // self.tile_size), int((offset[0] + surf.get_width()) // self.tile_size + 1)):
-            for y in range(int(offset[1] // self.tile_size), int((offset[1] + surf.get_height()) // self.tile_size + 1)):
+            for y in range(int(offset[1] // self.tile_size),
+                           int((offset[1] + surf.get_height()) // self.tile_size + 1)):
                 loc = str(x) + ';' + str(y)
                 if loc in self.tilemap:
                     tile = self.tilemap[loc]
                     surf.blit(self.game.assets[tile['type']], (
                         tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
-
 
     #salvare harta dupa editor #Sumi
     def save(self, path):
