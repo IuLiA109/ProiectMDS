@@ -9,6 +9,7 @@ from player import Player
 from Levels.level1 import Level1
 from hud import HUD
 from menu import Menu
+from sound import Sound
 
 class GameController:
     def __init__(self):
@@ -86,6 +87,10 @@ class GameController:
 
         # Game HUD:
         self.hud = HUD(self)
+
+        # Initialize the Sound class
+        self.sound = Sound()
+        self.sound.play_music('soundtrack')  # Play background music
 
     def restartGame(self):
         self.currentLevel.init_Level()

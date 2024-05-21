@@ -13,17 +13,17 @@ class Sound:
         self.allowSFX = True
 
         self.sfx = {
-            'soundtrack': mixer.Sound('data/sounds/main_theme.ogg'),
-            'coin': mixer.Sound('data/sounds/coin.ogg'),
-            'bump': mixer.Sound('data/sounds/bump.ogg'),
-            'stomp': mixer.Sound('data/sounds/stomp.ogg'),
-            'jump': mixer.Sound('data/sounds/small_jump.ogg'),
-            'death': mixer.Sound('data/sounds/death.wav'),
-            'kick': mixer.Sound('data/sounds/kick.ogg'),
-            'brick_bump': mixer.Sound('data/sounds/brick-bump.ogg'),
-            'powerup': mixer.Sound('data/sounds/powerup.ogg'),
-            'powerup_appear': mixer.Sound('data/sounds/powerup_appears.ogg'),
-            'pipe': mixer.Sound('data/sounds/pipe.ogg')
+            'soundtrack': mixer.Sound("./sounds/main_theme.ogg"),
+            'coin': mixer.Sound('./sounds/coin.ogg'),
+            'bump': mixer.Sound('./sounds/bump.ogg'),
+            'stomp': mixer.Sound('./sounds/stomp.ogg'),
+            'jump': mixer.Sound('./sounds/small_jump.ogg'),
+            'death': mixer.Sound('./sounds/death.wav'),
+            'kick': mixer.Sound('./sounds/kick.ogg'),
+            'brick_bump': mixer.Sound('./sounds/brick-bump.ogg'),
+            'powerup': mixer.Sound('./sounds/powerup.ogg'),
+            'powerup_appear': mixer.Sound('./sounds/powerup_appears.ogg'),
+            'pipe': mixer.Sound('./sounds/pipe.ogg')
         }
 
         self.sfx['soundtrack'].set_volume(0.2)
