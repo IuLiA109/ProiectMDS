@@ -165,8 +165,7 @@ class GameController:
 
     def update(self):
         # print(self.currentLevel.enemiesList[0].pos)
-
-        print(self.player.lives)
+        #print(self.player.lives)
 
         if self.running == False:
             pygame.quit()

@@ -13,18 +13,19 @@ class PhysicsEntity:
         # self.action = 'stay'
 
         # teo worked here
-        self.action = ''
+        self.action = action
         # self.anim_offset = (-3, -3)
         self.anim_offset = (0, 0)
-        self.set_action(action)  # aici era 'idle' # am pus incat a se putea seta action #Sumi
+        self.set_action(action)
+        self.facingRight = True
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
 
     def set_action(self, action):
-        if action != self.action:
-            self.action = action
-            self.animation = self.game.assets[self.type + '/' + self.action].copy()
+        #if action != self.action:
+        self.action = action
+        self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
     def move(self):
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
@@ -61,18 +62,27 @@ class PhysicsEntity:
         if self.collisions['down'] or self.collisions['up']:
             self.velocity[1] = 0
 
-    def updateFacingDirection(self):
+    def updateFlipDirection(self):
         if self.movement[0] > 0:
             self.flip = False
         else:
             self.flip = True
 
-    def update(self):
+    def updateFacingDirection(self):
+        if self.movement[0] > 0:
+            self.facingRight = True
+        else:
+            self.facingRight = False
 
-        self.move()
-        self.updateFacingDirection()
+    def updateAnimation(self):
         self.animation.update()
 
+    def update(self):
+        self.move()
+        self.updateFlipDirection()
+        self.updateFacingDirection()
+        self.updateAnimation()
+
     def render(self, surf, offset=(0, 0)):
-        surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False),
+        surf.blit(pygame.transform.flip(self.animation.img(), self.facingRight, False),
                   (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))

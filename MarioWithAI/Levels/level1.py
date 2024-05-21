@@ -29,14 +29,17 @@ class Level1(Level):
         # levels/level1.json
         self.game.tilemap.load("Maps/map1.json")
 
+        ''' Spawning the goombas '''
 
         for i in range(self.nrOfEnemies):
             self.enemiesList.append(Enemy(self.game, "goombas", self.enemiesPositions[i]))
-
         '''
         for i in range(self.nrOfEnemies):
-            self.enemiesList.append(Enemy(self.game, "koopas", self.enemiesPositions[i]))
-'''
+            koopa = Enemy(self.game, name="koopas", pos=self.enemiesPositions[i])
+            koopa.setAnimationOffset((0, -7))
+            self.enemiesList.append(koopa)
+        '''
+
         ''' Setam pozitia initiala a playerului '''
         self.game.player.pos = [50, 10]
 

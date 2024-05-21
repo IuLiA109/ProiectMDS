@@ -64,13 +64,25 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             return True
         return False
 
+    def killingJump(self):
+        self.velocity[1] = -PLAYER_SPEED
+
+    def updateFacingDirection(self):
+        if self.velocity[0] < 0:
+            self.facingRight = True
+        else:
+            self.facingRight = False
+
     def die(self):
         self.lives -= 1
 
         if self.lives <= 0:
             self.game.running = False
+            return
 
         # self.savePlayer()
+        # Wait a second before restarting the Game.
+        pygame.time.wait(500)
         self.game.saveGame()
         self.game.restartGame()
 
