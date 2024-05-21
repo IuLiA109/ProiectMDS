@@ -6,7 +6,7 @@ from tiles import *
 from gameStateManager import GameStateManager
 from Levels.level import Level
 
-from MarioWithAI.tiles import Tilemap
+from tiles import Tilemap
 
 
 class Level1(Level):
