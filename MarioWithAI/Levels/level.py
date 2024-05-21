@@ -1,6 +1,7 @@
 import pygame
 
-from MarioWithAI.sound import Sound
+from sound import Sound
+#from MarioWithAI.sound import Sound
 
 
 class Level:
