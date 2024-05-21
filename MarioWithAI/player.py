@@ -75,6 +75,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
 
     def die(self):
         self.lives -= 1
+        self.game.sound.play_sfx('death')  # Play death sound
 
         if self.lives <= 0:
             self.game.running = False
@@ -110,6 +111,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
                 # self.game.tilemap.hitTileAnimation(tile['pos'])
                 self.game.tilemap.setTile(tile['pos'], 'mystery/used')
                 self.coins += 1
+                self.game.sound.play_sfx('coin')  # Play coin sound
 
 
     def getTileAbovePlayer(self):
@@ -148,6 +150,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
                     # jump only if player is on the ground
                     #if self.velocity[1] == 0:
                     self.velocity[1] = -PLAYER_SPEED * 4
+                    self.game.sound.play_sfx('jump')  # Play jump sound
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     self.velocity[1] = PLAYER_SPEED
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:

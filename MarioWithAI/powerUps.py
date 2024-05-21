@@ -23,6 +23,7 @@ class PowerUp(PhysicsEntity):
 
         if hitbox.colliderect(player_rect):
             print("sau attins")
+            self.game.sound.play_sfx('powerup')  # Play power-up collect sound effect
             #self.die()
         else:
             print("nu a fost atins")
@@ -30,6 +31,7 @@ class PowerUp(PhysicsEntity):
 
     def die(self,level):
         level.powerUpsList.remove(self)
+        self.game.sound.play_sfx('powerup_appear')  # Play power-up appear sound effect
 
     def isOnScreen(self):
         if self.game.camera[0] + VIRTUALSCREEN_WIDTH < self.pos[0]:

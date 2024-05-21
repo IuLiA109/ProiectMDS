@@ -1,5 +1,11 @@
 {
+<<<<<<< HEAD
     "LIVES": 3,
     "SCORE": 0,
     "COINS": 0
+=======
+    "LIVES": 2,
+    "SCORE": 800,
+    "COINS": 1
+>>>>>>> 16526fe9fc2e7d7e200ee6408cb9f0bf88b7ea8a
 }

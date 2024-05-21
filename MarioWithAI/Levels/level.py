@@ -1,5 +1,8 @@
 import pygame
 
+from MarioWithAI.sound import Sound
+
+
 class Level:
     def __init__(self, game):
         self.game = game
@@ -17,6 +20,7 @@ class Level:
 
     def init_Level(self):
         self.game.player.loadPlayer()
+        self.game.sound.play_music('soundtrack')  # Play background music when level starts
 
     def updateTime(self):
         ''' metoda auxiliara pana implementez un cronometru care merge si pentru Pauza '''
@@ -29,6 +33,7 @@ class Level:
     def updateLevel(self):
 
         if self.current_time <= 0:
+            self.game.sound.play_sfx('death')  # Play death sound if time runs out
             self.game.gameStateManager.switchGameState("Menu", "Game Over Menu") # Or Start Menu
 
         self.game.updateCamera()
