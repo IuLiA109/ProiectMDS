@@ -6,16 +6,17 @@ from constants import *
 from entities import PhysicsEntity
 class Enemy(PhysicsEntity):
     def __init__(self, game, name, pos=(0, 0), size=(16, 16)):
-        super().__init__(game, 'enemy', pos, size)
         self.name = name
         self.walking = 0
         self.index = 0
         self.walking_animation_frame = 0
         self.walking_animation_duration = 250
         self.walking_animation_timer = 0
-        self.animation = self.game.assets[self.type + '/' + self.name + '/' + self.action].copy()
+        #self.animation = self.game.assets[self.type + '/' + self.name + '/' + self.action].copy()
         #self.image = self.game.assets['enemy']
         # self.animation = self.game.assets['enemy/run'].copy()
+        super().__init__(game, 'enemy', pos, size)
+        self.set_action('run')
 
     '''
     def update_animation(self):
@@ -27,8 +28,12 @@ class Enemy(PhysicsEntity):
 
     '''
 
+    def setAnimationOffset(self, offset):
+        self.anim_offset = offset
+
     def die(self):
         self.game.Level1.enemiesList.remove(self)
+        self.game.player.score += 100
 
     def check_collision_with_player(self):
         player_rect = self.game.player.rect()
@@ -38,6 +43,7 @@ class Enemy(PhysicsEntity):
             #print(player_rect.x, player_rect.y, enemy_rect.x, enemy_rect.y)
             if enemy_rect.x - self.size[0]//8*7 <= player_rect.x <= enemy_rect.x + self.size[0] and enemy_rect.y - self.size[1] <= player_rect.y <= enemy_rect.y - 1 :
                 self.die()
+                self.game.player.killingJump()
             else:
                 self.game.player.die()
                 # self.game.loadGame()
@@ -60,6 +66,11 @@ class Enemy(PhysicsEntity):
             return False
         self.walking = 1
         return True
+
+    def set_action(self, action):
+        #if action != self.action:
+        self.action = action
+        self.animation = self.game.assets[self.type + '/' + self.name + '/' + self.action].copy()
 
     def update(self):
 
@@ -86,7 +97,7 @@ class Enemy(PhysicsEntity):
             self.action = 'stay'
             self.die()
 
-        self.animation.update()
+        self.updateAnimation()
        #  self.update_animation()
 
     '''
