@@ -22,8 +22,10 @@ class GameController:
         self.clock = pygame.time.Clock()
         self.running = True
 
-        self.gameStateManager = GameStateManager(self, "Level 1")
-        self.menu = Menu(self, "Pause Menu")
+        #self.gameStateManager = GameStateManager(self, "Level 1")
+        self.gameStateManager = GameStateManager(self, "Menu")
+        #self.menu = Menu(self, "Pause Menu")
+        self.menu = Menu(self, "Start Menu")
 
         self.camera = [0, -60]
         self.render_camera = [0, 0]
@@ -102,7 +104,7 @@ class GameController:
     def loadNewGame(self):
         self.player.loadNewPlayer()
         self.current_world = 1
-        self.current_level = 1
+        self.current_level = 0
 
     '''
     def loadLevel1(self):
@@ -200,6 +202,9 @@ class GameController:
     def checkGameEvents(self):
 
         self.eventList = pygame.event.get()
+
+        if self.gameStateManager.gameState == "Menu":
+            self.menu.handleEvents(self.eventList)
 
         if self.gameStateManager.gameState == "Level 1":
             self.Level1.checkEvents(self.eventList)

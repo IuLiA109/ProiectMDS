@@ -34,7 +34,6 @@ NEIGHBOURS_OFFSET = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0
 
 TILESIZE = 16
 
-
 PLAYER_SPEED = 1
 FRICTION = 0.07
 
