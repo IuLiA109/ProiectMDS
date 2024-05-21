@@ -89,6 +89,10 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.updateVelocity()
         super().move()
 
+        # Boundary checks to prevent the player from moving out of the screen
+        if self.pos[0] < self.game.render_camera[0]:
+            self.pos[0] = self.game.render_camera[0]
+
     def checkEvents(self, eventList):
         for event in eventList:
             # Movement with W A S D and arrows

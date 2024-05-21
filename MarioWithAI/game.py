@@ -35,6 +35,10 @@ class GameController:
         self.movement = [False, False]
         self.loadingImage = pygame.image.load("data/images/menus/LoadingScreenImage.png").convert_alpha()
 
+        self.darken_surface = pygame.Surface((VIRTUALSCREEN_WIDTH, VIRTUALSCREEN_HEIGHT))
+        self.darken_surface.set_alpha(128)  # Adjust alpha for transparency; 0 is fully transparent, 255 is fully opaque
+        self.darken_surface.fill((0, 0, 0))  # Fill with black color to darken the screen
+
         self.assets = {
             'floor': load_image('tiles/floor.png'),
             'wall': load_image('tiles/wall.png'),
@@ -219,6 +223,11 @@ class GameController:
 
         if self.gameStateManager.gameState == "Menu":
             self.currentLevel.renderLevel(self.virtual_screen, self.render_camera)
+
+            # If paused I darken the screen
+            if self.menu.type == "Pause Menu":
+                self.virtual_screen.blit(self.darken_surface, (0, 0))
+
             self.menu.render(self.virtual_screen)
 
         # scale the virutal screen onto the actual screen
