@@ -42,6 +42,9 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         data['SCORE'] = self.score
         data['COINS'] = self.coins
 
+        json_data = json.dumps(data, indent=4)
+        file.write(json_data)
+
     def loadPlayer(self):
         directory = "saves/"
         file = open(directory + 'playerSave.json', 'r')
@@ -55,6 +58,22 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.lives = 3
         self.score = 0
         self.coins = 0
+
+    def hitHead(self):
+        if self.collisions['up']:
+            return True
+        return False
+
+    def die(self):
+        self.lives -= 1
+
+        if self.lives <= 0:
+            self.game.running = False
+
+        # self.savePlayer()
+        self.game.saveGame()
+        self.game.restartGame()
+
 
     def update(self, movement=(0,0)):
         super().update()
@@ -71,6 +90,22 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
 
         # self.score += 10
         # self.coins += 1
+
+        if self.hitHead() == True:
+            tile = self.getTileAbovePlayer()
+            # print(tile)
+            if tile != None and tile['type'] == 'mystery':
+                # self.game.tilemap.hitTileAnimation(tile['pos'])
+                self.game.tilemap.setTile(tile['pos'], 'mystery/used')
+                self.coins += 1
+
+
+    def getTileAbovePlayer(self):
+        tile_loc = (int((self.pos[0] + self.size[0] // 2) // self.size[0]), int(self.pos[1] // self.size[1]))
+        check_loc = str(tile_loc[0]) + ';' + str(tile_loc[1] - 1)
+        if check_loc in self.game.tilemap.tilemap:
+            return self.game.tilemap.tilemap[check_loc]
+        return None
 
     def updateVelocity(self):
         # Apply acceleration to velocity
@@ -116,7 +151,8 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
-                    self.velocity[1] = 0
+                    if self.velocity[1] < 0:
+                        self.velocity[1] = 0
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     self.velocity[1] = 0
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:

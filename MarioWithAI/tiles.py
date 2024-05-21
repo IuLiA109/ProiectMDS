@@ -2,7 +2,7 @@ import pygame
 import json
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)]
-PHYSICS_TILES = {'floor', 'wall', 'brick_wall', 'mystery', 'pipe_up', 'pipe_extension', 'invisible_block'}
+PHYSICS_TILES = {'floor', 'wall', 'brick_wall', 'mystery','mystery/used', 'pipe_up', 'pipe_extension', 'invisible_block'}
 
 
 class Tilemap:
@@ -12,13 +12,20 @@ class Tilemap:
         self.tilemap = {}
         self.offgrid_tiles = []
 
-        #Il opresc momentan #Sumi
         #for i in range(30):
         #   self.tilemap[str(3 + i) + ';10'] = {'type': 'floor', 'variant': 0, 'pos': (3 + i, 10)}
         #  self.tilemap['10;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (10, 5 + i)}
         # self.tilemap['20;' + str(5 + i)] = {'type': 'wall', 'variant': 0, 'pos': (20, 5 + i)}
 
-    #Sumi was here
+
+    def setTile(self, pos, tile_type):
+        tile_loc = (int(pos[0]), int(pos[1]))
+        self.tilemap[str(tile_loc[0]) + ';' + str(tile_loc[1])] = {'type': tile_type, 'pos': tile_loc}
+
+    def hitTileAnimation(self, pos):
+        # Make the tile move up and down
+        pass
+
     def load(self, filename):
         f = open(filename, 'r')
         data = json.load(f)
@@ -60,7 +67,6 @@ class Tilemap:
                     surf.blit(self.game.assets[tile['type']], (
                         tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
 
-    #salvare harta dupa editor #Sumi
     def save(self, path):
         f = open(path, 'w')
         json.dump({'tilemap': self.tilemap, 'tile_size': self.tile_size, 'offgrid_tiles': self.offgrid_tiles}, f)

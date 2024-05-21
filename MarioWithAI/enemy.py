@@ -39,7 +39,9 @@ class Enemy(PhysicsEntity):
             if enemy_rect.x - self.size[0]//8*7 <= player_rect.x <= enemy_rect.x + self.size[0] and enemy_rect.y - self.size[1] <= player_rect.y <= enemy_rect.y - 1 :
                 self.die()
             else:
-                self.game.running = False
+                self.game.player.die()
+                # self.game.loadGame()
+                # self.game.running = False
 
     def check_collision_with_other_enemy(self):
         frame_movement = (self.movement[0] + self.velocity[0], self.movement[1] + self.velocity[1])
@@ -60,6 +62,7 @@ class Enemy(PhysicsEntity):
         return True
 
     def update(self):
+
         if self.walking:
             if (self.collisions['right'] or self.collisions['left']):
                 self.flip = not self.flip

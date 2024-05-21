@@ -44,6 +44,7 @@ class GameController:
             'wall': load_image('tiles/wall.png'),
             'brick_wall': load_image('tiles/brick_wall.png'),
             'mystery': load_image('tiles/mysteryBlocks/mystery1.png'),
+            'mystery/used': load_image('tiles/mysteryBlocks/mystery4.png'),
             'pipe_up': load_image('tiles/pipes/pipe_up.png'),
             'pipe_extension': load_image('tiles/pipes/pipe_extension.png'),
             'invisible_block': load_image('tiles/invisible_block.png'),
@@ -86,13 +87,17 @@ class GameController:
         # Game HUD:
         self.hud = HUD(self)
 
+    def restartGame(self):
+        self.currentLevel.init_Level()
+
+
     def startGame(self):
-        # load the lobby as the first scene
-        #self.Level1 = Level1(self)
+        self.loadNewGame()
 
-        #self.loadLevel1()
-
-        pass
+    def loadNewGame(self):
+        self.player.loadNewPlayer()
+        self.current_world = 1
+        self.current_level = 1
 
     '''
     def loadLevel1(self):
@@ -159,7 +164,9 @@ class GameController:
         self.render_camera = [(self.camera[0]), (self.camera[1])]
 
     def update(self):
-        print(self.currentLevel.enemiesList[0].pos)
+        # print(self.currentLevel.enemiesList[0].pos)
+
+        print(self.player.lives)
 
         if self.running == False:
             pygame.quit()

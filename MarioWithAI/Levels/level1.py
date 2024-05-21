@@ -13,7 +13,8 @@ class Level1(Level):
         self.init_Level()
 
     def init_Level(self):
-        self.game.player.loadNewPlayer()
+        self.game.player.loadPlayer()
+        self.enemiesList = []
         # super().init_Level()
 
         self.game.background.fill((108, 190, 237))
@@ -28,11 +29,19 @@ class Level1(Level):
         # levels/level1.json
         self.game.tilemap.load("Maps/map1.json")
 
+
         for i in range(self.nrOfEnemies):
             self.enemiesList.append(Enemy(self.game, "goombas", self.enemiesPositions[i]))
 
+        '''
+        for i in range(self.nrOfEnemies):
+            self.enemiesList.append(Enemy(self.game, "koopas", self.enemiesPositions[i]))
+'''
         ''' Setam pozitia initiala a playerului '''
         self.game.player.pos = [50, 10]
+
+        self.game.camera = [0, -60]
+        self.game.render_camera = [0, 0]
 
     def checkEvents(self, eventList):
         super().checkEvents(eventList)
