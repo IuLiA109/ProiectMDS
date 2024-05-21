@@ -27,6 +27,11 @@ class Level:
             self.aux_time = 100
 
     def updateLevel(self):
+        pygame.mixer.music.load('data/sounds/main_theme.ogg')
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
+
+        self.sfx['soundtrack'].play(-1)
 
         if self.current_time <= 0:
             self.game.gameStateManager.switchGameState("Menu", "Game Over Menu") # Or Start Menu
