@@ -15,6 +15,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         super().__init__(game, 'player', pos, size)
         self.air_time = 0
         self.acceleration = [0, 0]
+        self.touched_finish = False
 
         # Animation frames
         '''
@@ -89,6 +90,13 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.game.saveGame()
         self.game.restartGame()
 
+    def updateFinishScore(self):
+        jump_height = 11 - self.pos[1] // self.size[1]
+
+        if 2992 < self.pos[0] and 0 < jump_height < 10 and self.touched_finish == False:
+            self.touched_finish = True
+            self.score += self.game.end_level_rewards[int(jump_height)]
+
     def update(self, movement=(0, 0)):
         super().update()
         self.air_time += 1
@@ -120,6 +128,8 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
                 else:
                     self.coins += 1
                     self.game.sound.play_sfx('coin')  # Play coin sound
+
+        self.updateFinishScore()
 
     def getTileAbovePlayer(self):
         tile_loc = (int((self.pos[0] + self.size[0] // 2) // self.size[0]), int(self.pos[1] // self.size[1]))
