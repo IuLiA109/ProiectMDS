@@ -42,6 +42,8 @@ class GameController:
         self.darken_surface.set_alpha(128)  # Adjust alpha for transparency; 0 is fully transparent, 255 is fully opaque
         self.darken_surface.fill((0, 0, 0))  # Fill with black color to darken the screen
 
+        self.end_level_rewards = [0, 400, 700, 1100, 1500, 2000, 2600, 3200, 4000, 5000]
+
         self.assets = {
             'floor': load_image('tiles/floor.png'),
             'wall': load_image('tiles/wall.png'),

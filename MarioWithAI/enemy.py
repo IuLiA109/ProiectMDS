@@ -33,7 +33,6 @@ class Enemy(PhysicsEntity):
 
     def die(self):
         self.game.Level1.enemiesList.remove(self)
-        self.game.player.score += 100
 
     def check_collision_with_player(self):
         player_rect = self.game.player.rect()
@@ -43,6 +42,7 @@ class Enemy(PhysicsEntity):
             #print(player_rect.x, player_rect.y, enemy_rect.x, enemy_rect.y)
             if enemy_rect.x - self.size[0]//8*7 <= player_rect.x <= enemy_rect.x + self.size[0] and enemy_rect.y - self.size[1] <= player_rect.y <= enemy_rect.y - 1 :
                 self.die()
+                self.game.player.score += 100
                 self.game.player.killingJump()
             else:
                 self.game.player.die()
