@@ -27,6 +27,8 @@ class Level1(Level):
                                  (2027, 200), (2646, 200), (2666, 200)]
         self.nrOfEnemies = 16
 
+        self.powerUpsPositions = [(10, 20)]
+
         ''' Incarcam pe tilemap harta levelului 1 '''
         # levels/level1.json
         self.game.tilemap.load("Maps/map1.json")

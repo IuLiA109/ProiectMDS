@@ -21,7 +21,7 @@ class GameController:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.running = True
-
+        self.maxLevel = 1
         #self.gameStateManager = GameStateManager(self, "Level 1")
         self.gameStateManager = GameStateManager(self, "Menu")
         #self.menu = Menu(self, "Pause Menu")
@@ -69,9 +69,9 @@ class GameController:
             'player/pipeHorizontal': Animation(load_images('entities/mario/pipeHorizontal'), img_dur=4),
             'player/pipeVertical': Animation(load_images('entities/mario/pipeVertical'), img_dur=6),
             # 'powerUps/mushroom': load_image('entities/powerUps/Mushrooms/2.png')
-            'powerUp/mushroom': load_image('entities/powerUps/Mushrooms/mushroom.png'),
-            'powerUp/mushroom/run': Animation(load_images('entities/powerups/Mushrooms/move/'), img_dur=6),
-            'powerUp/mushroom/idle': Animation(load_images('entities/powerups/Mushrooms/move/'), img_dur=6),
+            'mushroom': load_image('entities/powerUps/Mushrooms/mushroom.png'),
+            'mushroom/run': Animation(load_images('entities/powerups/Mushrooms/move/'), img_dur=6),
+            'mushroom/idle': Animation(load_images('entities/powerups/Mushrooms/move/'), img_dur=6),
         }
 
         self.tilemap = None
@@ -82,10 +82,14 @@ class GameController:
         self.current_level = 1
 
         # Scenes
+
         self.Level1 = Level1(self)
         self.Level2 = None
         self.Level3 = None
+
         self.currentLevel = self.Level1
+
+
 
         # Game HUD:
         self.hud = HUD(self)

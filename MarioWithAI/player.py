@@ -1,9 +1,11 @@
 import json
+from random import random, randint
 
 import pygame
-#import game
+# import game
 from constants import *
 from entities import PhysicsEntity
+from powerUps import PowerUp
 
 NEIGHBOURS_OFFSET = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]]
 
@@ -87,8 +89,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.game.saveGame()
         self.game.restartGame()
 
-
-    def update(self, movement=(0,0)):
+    def update(self, movement=(0, 0)):
         super().update()
         self.air_time += 1
 
@@ -99,7 +100,8 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             self.set_action('jump')
         elif movement[0] != 0:
             self.set_action('run')
-        else: self.set_action('idle')
+        else:
+            self.set_action('idle')
 
         # self.score += 10
         # self.coins += 1
@@ -110,9 +112,14 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             if tile != None and tile['type'] == 'mystery':
                 # self.game.tilemap.hitTileAnimation(tile['pos'])
                 self.game.tilemap.setTile(tile['pos'], 'mystery/used')
-                self.coins += 1
-                self.game.sound.play_sfx('coin')  # Play coin sound
-
+                if (randint(0, 1) == 0):
+                    self.game.sound.play_sfx('powerup_appear')  # Play power-up collect sound effect
+                    position = (tile['pos'][0] * 16, tile['pos'][1] * 16 - 16)
+                    self.game.currentLevel.powerUpsList.append(
+                        PowerUp(self.game, pos=position, size=(16, 16)))
+                else:
+                    self.coins += 1
+                    self.game.sound.play_sfx('coin')  # Play coin sound
 
     def getTileAbovePlayer(self):
         tile_loc = (int((self.pos[0] + self.size[0] // 2) // self.size[0]), int(self.pos[1] // self.size[1]))
@@ -123,9 +130,9 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
 
     def updateVelocity(self):
         # Apply acceleration to velocity
-        self.velocity[0] += self.acceleration[0] * 1/10
+        self.velocity[0] += self.acceleration[0] * 1 / 10
 
-        #self.velocity[1] = max(-5, self.velocity[1])
+        # self.velocity[1] = max(-5, self.velocity[1])
         if self.velocity[0] > 5:
             self.velocity[0] = 5
         if self.velocity[0] < -5:
@@ -148,7 +155,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     # jump only if player is on the ground
-                    #if self.velocity[1] == 0:
+                    # if self.velocity[1] == 0:
                     self.velocity[1] = -PLAYER_SPEED * 4
                     self.game.sound.play_sfx('jump')  # Play jump sound
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
