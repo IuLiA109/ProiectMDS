@@ -120,7 +120,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             if tile != None and tile['type'] == 'mystery':
                 # self.game.tilemap.hitTileAnimation(tile['pos'])
                 self.game.tilemap.setTile(tile['pos'], 'mystery/used')
-                if (randint(0, 1) == 0):
+                if (randint(0, 10) == 0):
                     self.game.sound.play_sfx('powerup_appear')  # Play power-up collect sound effect
                     position = (tile['pos'][0] * 16, tile['pos'][1] * 16 - 16)
                     self.game.currentLevel.powerUpsList.append(
