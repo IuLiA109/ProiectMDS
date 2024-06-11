@@ -87,8 +87,22 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.game.saveGame()
         self.game.restartGame()
 
+    def apply_ai_actions(self):
+        actions = self.game.ai.decide_action()
+        self.reset_movement()
+        if actions['move_left']:
+            self.acceleration[0] = -PLAYER_SPEED
+        if actions['move_right']:
+            self.acceleration[0] = PLAYER_SPEED
+        if actions['jump'] and self.collisions['down']:
+            self.velocity[1] = -PLAYER_SPEED * 4
+
+    def reset_movement(self):
+        self.acceleration = [0, self.acceleration[1]]
 
     def update(self, movement=(0,0)):
+        if self.game.ai_enabled:
+            self.apply_ai_actions()
         super().update()
         self.air_time += 1
 
