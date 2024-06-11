@@ -99,6 +99,10 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
 
     def update(self, movement=(0, 0)):
         super().update()
+        #print(self.pos)
+        if self.pos[1] > 250:
+            self.die()
+
         self.air_time += 1
 
         if self.collisions['down']:
