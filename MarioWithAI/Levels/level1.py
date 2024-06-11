@@ -25,22 +25,27 @@ class Level1(Level):
         self.enemiesPositions = [(400, 200), (650, 200), (850, 200), (1108, 10), (1140, 10), (1368, 200), (1388, 200),
                                  (1528, 200), (1638, 200), (1658, 200), (1942, 200), (1962, 200), (2002, 200),
                                  (2027, 200), (2646, 200), (2666, 200)]
+
+        self.enemiesType = [("goombas", "red"), ("goombas", "red"), ("goombas", "red"), ("goombas", "red"),
+                            ("goombas", "red"), ("goombas", "red"), ("goombas", "red"), ("koopas", "green"),
+                            ("goombas", "red"), ("goombas", "red"), ("goombas", "red"), ("goombas", "red"),
+                            ("goombas", "red"), ("goombas", "red"), ("goombas", "red"), ("goombas", "red")]
+
+        self.enemiesOffsets = []
         self.nrOfEnemies = 16
+
+        self.powerUpsPositions = [(10, 20)]
 
         ''' Incarcam pe tilemap harta levelului 1 '''
         # levels/level1.json
         self.game.tilemap.load("Maps/map1.json")
 
-        ''' Spawning the goombas '''
+        ''' Spawning the enemies '''
 
         for i in range(self.nrOfEnemies):
-            self.enemiesList.append(Enemy(self.game, "goombas", self.enemiesPositions[i]))
-        '''
-        for i in range(self.nrOfEnemies):
-            koopa = Enemy(self.game, name="koopas", pos=self.enemiesPositions[i])
-            koopa.setAnimationOffset((0, -7))
-            self.enemiesList.append(koopa)
-        '''
+            enemy = Enemy(self.game, name=self.enemiesType[i][0], color=self.enemiesType[i][1], pos=self.enemiesPositions[i])
+            #enemy.setAnimationOffset((0, 16-24+1))
+            self.enemiesList.append(enemy)
 
         ''' Setam pozitia initiala a playerului '''
         self.game.player.pos = [50, 10]
