@@ -7,14 +7,15 @@ from Levels.level import Level
 
 
 class Level2(Level):
-    def __init__(self, game):
-        super().__init__(game)
-
+    def __init__(self, game, moves):
+        super().__init__(game, moves)
         self.init_Level()
 
     def init_Level(self):
-        self.game.player.loadNewPlayer()
+        #self.game.player.loadNewPlayer()
         # super().init_Level()
+        self.game.player.loadPlayer()
+        self.enemiesList = []
 
         self.game.background.fill((108, 190, 237))
         self.game.tilemap = Tilemap(self.game)
@@ -35,6 +36,9 @@ class Level2(Level):
 
         ''' Setam pozitia initiala a playerului '''
         self.game.player.pos = [50, 10]
+
+        self.game.camera = [0, -60]
+        self.game.render_camera = [0, 0]
 
     def checkEvents(self, eventList):
         super().checkEvents(eventList)

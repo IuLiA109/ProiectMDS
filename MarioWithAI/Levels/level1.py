@@ -10,8 +10,8 @@ from tiles import Tilemap
 
 
 class Level1(Level):
-    def __init__(self, game):
-        super().__init__(game)
+    def __init__(self, game, moves):
+        super().__init__(game, moves)
         self.init_Level()
 
     def init_Level(self):

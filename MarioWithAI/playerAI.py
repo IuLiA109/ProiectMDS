@@ -1,6 +1,6 @@
 import json
-from random import random, randint
-
+#from random import random, randint
+import random
 import pygame
 # import game
 from constants import *
@@ -10,7 +10,7 @@ from powerUps import PowerUp
 NEIGHBOURS_OFFSET = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]]
 
 
-class Player(PhysicsEntity):  # Inherit from PhysicsEntity
+class PlayerAI(PhysicsEntity):  # Inherit from PhysicsEntity
     def __init__(self, game, pos=(0, 0), size=(16, 16)):
         super().__init__(game, 'player', pos, size)
         self.air_time = 0
@@ -28,7 +28,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.current_frame = 0
         self.frame_delay = 350
         self.last_frame_time = 0
-        
+
         self.image = self.animation_frames[self.current_frame]
         '''
 
@@ -36,7 +36,38 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.score = 0
         self.coins = 0
 
-        self.max_pos = 0
+        self.decision = None
+
+    def think(self):
+        self.decision = int(random.uniform(1,5)) # right, left, jump, stay
+        if self.decision == 1:
+            self.move_right()
+        elif self.decision == 2:
+            self.move_left()
+        elif self.decision == 3:
+            self.jump()
+        else: self.no_op()
+
+    def still_alive(self):
+        return self.lives == 3
+
+    def move_left(self):
+        # Implement movement logic
+        self.acceleration[0] = -PLAYER_SPEED
+
+    def move_right(self):
+        # Implement movement logic
+        self.acceleration[0] = PLAYER_SPEED
+
+    def jump(self):
+        # Implement jump logic
+        if self.collisions['down']:
+            self.velocity[1] = -PLAYER_SPEED * 4
+            # self.game.sound.play_sfx('jump')
+
+    def no_op(self):
+        # Implement no operation
+        self.acceleration[0] = 0
 
     def savePlayer(self):
         directory = "saves/"
@@ -58,13 +89,11 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.lives = data['LIVES']
         self.score = data['SCORE']
         self.coins = data['COINS']
-        self.max_pos = 0
 
     def loadNewPlayer(self):
-        self.lives = 1
+        self.lives = 3
         self.score = 0
         self.coins = 0
-        self.max_pos = 0
 
     def hitHead(self):
         if self.collisions['up']:
@@ -85,10 +114,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.game.sound.play_sfx('death')  # Play death sound
 
         if self.lives <= 0:
-            #self.game.running = False
-            self.game.fitness.append(self.max_pos)
-            #print(self.pos[0])
-            self.game.start_next_cromozom()
+            self.game.running = False
             return
 
         # self.savePlayer()
@@ -106,14 +132,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
 
     def update(self, movement=(0, 0)):
         super().update()
-        #print(self.pos)
-
-        if self.pos[0] > self.max_pos:
-            self.max_pos = self.pos[0]
-
-        if self.game.currentLevel.current_time < 250 and self.game.player.pos[0] < 200:
-            self.game.player.die()
-
+        # print(self.pos)
         if self.pos[1] > 250:
             self.die()
 
@@ -138,7 +157,7 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
             if tile != None and tile['type'] == 'mystery':
                 # self.game.tilemap.hitTileAnimation(tile['pos'])
                 self.game.tilemap.setTile(tile['pos'], 'mystery/used')
-                if (randint(0, 10) == 0):
+                if (random.randint(0, 10) == 0):
                     self.game.sound.play_sfx('powerup_appear')  # Play power-up collect sound effect
                     position = (tile['pos'][0] * 16, tile['pos'][1] * 16 - 16)
                     self.game.currentLevel.powerUpsList.append(
@@ -176,45 +195,6 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         # Boundary checks to prevent the player from moving out of the screen
         if self.pos[0] < self.game.render_camera[0]:
             self.pos[0] = self.game.render_camera[0]
-
-    def move_player(self, eventlist):
-        '''
-        if eventlist == 1:
-            self.move_right()
-        elif eventlist == 2:
-            self.move_left()
-        elif eventlist == 3:
-            self.jump()
-        else:
-            self.no_op()
-        '''
-        for event in eventlist:
-            if event == 1:
-                self.move_right()
-            elif event == 2:
-                self.move_left()
-            elif event == 3:
-                self.jump()
-            else: self.no_op()
-        #'''
-
-    def move_left(self):
-        # Implement movement logic
-        self.acceleration[0] = -PLAYER_SPEED
-
-    def move_right(self):
-        # Implement movement logic
-        self.acceleration[0] = PLAYER_SPEED
-
-    def jump(self):
-        # Implement jump logic
-        if self.collisions['down']:
-            self.velocity[1] = -PLAYER_SPEED * 4
-            # self.game.sound.play_sfx('jump')
-
-    def no_op(self):
-        # Implement no operation
-        self.acceleration[0] = 0
 
     def checkEvents(self, eventList):
         for event in eventList:

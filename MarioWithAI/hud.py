@@ -18,7 +18,7 @@ class HUD:
                                              (255, 255, 255))
 
         self.timeText = self.font.render("  TIME", True, (255, 255, 255))
-        self.timeNumbers = self.font.render(f"{self.game.Level1.current_time}", True, (255, 255, 255))
+        self.timeNumbers = self.font.render(f"{self.game.currentLevel.current_time}", True, (255, 255, 255))
 
         self.livesText = self.font.render("LIVES", True, (255, 255, 255))
         self.livesNumbers = self.font.render(f"{self.game.player.lives}", True, (255, 255, 255))
@@ -28,7 +28,7 @@ class HUD:
         self.coinsNumbers = self.font.render(f"{self.game.player.coins}", True, (255, 255, 255))
         self.worldNumbers = self.font.render(f"{self.game.current_world} - {self.game.current_level}", True,
                                              (255, 255, 255))
-        self.timeNumbers = self.font.render(f"{self.game.Level1.current_time}", True, (255, 255, 255))
+        self.timeNumbers = self.font.render(f"{self.game.currentLevel.current_time}", True, (255, 255, 255))
         self.livesNumbers = self.font.render(f"{self.game.player.lives}", True, (255, 255, 255))
 
     def renderHUD(self, surf):
