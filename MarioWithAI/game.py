@@ -104,12 +104,15 @@ class GameController:
     def restartGame(self):
         self.currentLevel.init_Level()
 
+    def setCurrentLevel(self, number=1):
+        pass
 
     def startGame(self):
         self.loadNewGame()
 
     def loadNewGame(self):
         self.player.loadNewPlayer()
+        self.player.savePlayer()
         self.current_world = 1
         self.current_level = 0
 

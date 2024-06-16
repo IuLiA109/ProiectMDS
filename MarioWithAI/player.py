@@ -8,6 +8,7 @@ from entities import PhysicsEntity
 from powerUps import PowerUp
 
 NEIGHBOURS_OFFSET = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]]
+NEIGHBOURS_OFFSET_4 = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 
 
 class Player(PhysicsEntity):  # Inherit from PhysicsEntity
@@ -17,24 +18,68 @@ class Player(PhysicsEntity):  # Inherit from PhysicsEntity
         self.acceleration = [0, 0]
         self.touched_finish = False
 
-        # Animation frames
-        '''
-        self.animation_frames = [
-            pygame.transform.scale(pygame.image.load("assets/player/frame_1.png").convert_alpha(), size),
-            pygame.transform.scale(pygame.image.load("assets/player/frame_2.png").convert_alpha(), size),
-            pygame.transform.scale(pygame.image.load("assets/player/frame_3.png").convert_alpha(), size)
-        ]
-        # Animation variables
-        self.current_frame = 0
-        self.frame_delay = 350
-        self.last_frame_time = 0
-        
-        self.image = self.animation_frames[self.current_frame]
-        '''
-
         self.lives = 3
         self.score = 0
         self.coins = 0
+
+    def perform_action(self, action):
+        # Define how actions map to player movements
+        if action == 0:  # Move left
+            self.move_left()
+        elif action == 1:  # Move right
+            self.move_right()
+        elif action == 2:  # Jump
+            self.jump()
+        elif action == 3:  # No-op
+            self.no_op()
+
+    def move_left(self):
+        # Implement movement logic
+        self.acceleration[0] = -PLAYER_SPEED
+
+    def move_right(self):
+        # Implement movement logic
+        self.acceleration[0] = PLAYER_SPEED
+
+    def jump(self):
+        # Implement jump logic
+        if self.collisions['down']:
+            self.velocity[1] = -PLAYER_SPEED * 4
+            # self.game.sound.play_sfx('jump')
+
+    def no_op(self):
+        # Implement no operation
+        self.acceleration[0] = 0
+
+    def getNearestEnemyPosition(self):
+        min_distance = 1000000
+        nearest_enemy = None
+        for enemy in self.game.currentLevel.enemiesList:
+            distance = abs(self.pos[0] - enemy.pos[0])
+            if distance < min_distance:
+                min_distance = distance
+                nearest_enemy = enemy
+        return nearest_enemy.pos
+
+    def distanceToNearestEnemy(self):
+        nearEnemy = self.getNearestEnemyPosition()
+        return abs(self.pos[0] - nearEnemy[0])
+
+    def getTilesAroundPlayer(self):
+        # return 4 booleans, if there is a tile around the player in each direction
+        # up, down, left, right
+        tile_loc = (int((self.pos[0] + self.size[0] // 2) // self.size[0]), int(self.pos[1] // self.size[1]))
+        tiles = [False, False, False, False]
+
+        for offset in NEIGHBOURS_OFFSET_4:
+            check_loc = str(tile_loc[0] + offset[0]) + ';' + str(tile_loc[1] + offset[1])
+            if check_loc in self.game.tilemap.tilemap:
+                tiles[NEIGHBOURS_OFFSET_4.index(offset)] = True
+
+        return tiles
+
+
+
 
     def savePlayer(self):
         directory = "saves/"
