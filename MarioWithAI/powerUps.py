@@ -8,25 +8,26 @@ from utils import load_image
 
 class PowerUp(PhysicsEntity):
     def __init__(self, game, pos=(0, 0), size=(16, 16)):
+        super().__init__(game, 'powerUp/mushroom', pos, size, action='')
         self.walking = 0
         self.index = 0
         self.walking_animation_frame = 0
         self.walking_animation_duration = 250
         self.walking_animation_timer = 0
-        super().__init__(game, 'mushroom', pos, size)
-        self.set_action('run')
+        self.animation = self.game.assets['powerUp/mushroom/run']
+        self.image = self.game.assets['powerUp/mushroom']
 
     def check_collision_with_player(self):
         player_rect = self.game.player.rect()
         hitbox = self.rect()
 
         if hitbox.colliderect(player_rect):
-            self.game.sound.play_sfx('powerup')
-            self.game.player.lives += 1
-            self.die(self.game.currentLevel)
-
-
-
+            print("sau attins")
+            self.game.sound.play_sfx('powerup')  # Play power-up collect sound effect
+            #self.die()
+        else:
+            print("nu a fost atins")
+            #self.game.running = False
 
     def die(self,level):
         level.powerUpsList.remove(self)
@@ -48,7 +49,7 @@ class PowerUp(PhysicsEntity):
                 self.movement = (- 0.5 if self.flip else 0.5, self.movement[1])
 
         self.check_collision_with_player()
-        self.move()
+        #self.move()
 
        # super().update()
 
@@ -57,6 +58,6 @@ class PowerUp(PhysicsEntity):
             self.action = 'run'
         else:
             self.action = 'stay'
-            self.die(self.game.currentLevel)
+            self.die()
 
-        self.animation.update()
+        #self.animation.update()
