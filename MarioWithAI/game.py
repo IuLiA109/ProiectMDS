@@ -10,6 +10,7 @@ from Levels.level1 import Level1
 from hud import HUD
 from menu import Menu
 from sound import Sound
+from ai import AIPlayer
 
 class GameController:
     def __init__(self):
@@ -101,6 +102,9 @@ class GameController:
         self.sound = Sound()
         self.sound.play_music('soundtrack')  # Play background music
 
+        self.ai = AIPlayer(self)
+        self.ai_enabled = True  # Set this to False to disable AI control
+
     def restartGame(self):
         self.currentLevel.init_Level()
 
@@ -189,6 +193,8 @@ class GameController:
             self.menu.update()
 
         if self.gameStateManager.gameState == "Level 1":
+            if self.ai_enabled:
+                self.player.apply_ai_actions()
             self.Level1.updateLevel()
 
         self.hud.updateHUD()
