@@ -7,9 +7,13 @@ class GameStateManager:
         self.game = game
         self.gameState = gameState
         self.previousGameState = None
+        self.game_user = None
 
     def returnToPreviousGameState(self):
         self.gameState = self.previousGameState
+
+    def switchGameUser(self, game_user):
+        self.game_user = game_user
 
     def switchGameState(self, gameState, menuType=None):
         self.previousGameState = self.gameState

@@ -6,6 +6,7 @@ from stable_baselines3.common.buffers import ReplayBuffer
 from stable_baselines3.common.env_checker import check_env
 from MarioEnv import MarioEnv
 import numpy as np
+import importlib
 
 # Path to the model file and replay buffer
 model_path = "dqn_mario.zip"

@@ -61,6 +61,12 @@ class Menu:
                 if self.type == "Start Menu" and self.play_rect.collidepoint(x, y):
                     #self.game.gameStateManager.switchGameState("Level 1")
                     self.changeType("Level Menu")
+                    self.game.gameStateManager.switchGameUser("human")
+                elif self.type == "Start Menu" and self.ai_rect.collidepoint(x, y):
+                    #self.game.gameStateManager.switchGameState("Level 1")
+                    self.changeType("Level Menu")
+                    self.game.gameStateManager.switchGameUser("ai")
+
                 elif self.type == "Level Menu" and self.level1_rect.collidepoint(x, y):
                     self.game.gameStateManager.switchGameState("Level 1")
                     #self.game.setCurrentLevel(1)
